@@ -19,9 +19,9 @@ There are a lot of resources and courses we can refer.
  
 - [Spinning Up in Deep RL](https://spinningup.openai.com/en/latest/) by OpenAI
 
-- [Reinforcement Learning: An Introduction](http://incompleteideas.net/book/the-book.html)
+- [Reinforcement Learning: An Introduction](http://incompleteideas.net/book/the-book.html) by the Awesome Richard S. Sutton
 
-- [Reinforcement Learning and Optimal Control](http://web.mit.edu/dimitrib/www/RLbook.html) by Dimitri P. Bertsekas, Athena Scientific, 2019
+- [Reinforcement Learning and Optimal Control](http://web.mit.edu/dimitrib/www/RLbook.html) by the Awesome Dimitri P. Bertsekas, Athena Scientific, 2019
 
 - [Advanced Deep Learning and Reinforcement Learning](https://github.com/enggen/DeepMind-Advanced-Deep-Learning-and-Reinforcement-Learning) at UCL(2018 Spring) taught by DeepMind’s Research Scientists
  
