@@ -6,8 +6,8 @@ description: >
   from theory, to algorithms, to applications.
 
 
-baseurl: "/"
-url: "https://rlseminar.github.io/"
+baseurl: ""
+url: "https://rlseminar.github.io"
 future: true
 exclude: ["Rakefile", "README.md"]
 
