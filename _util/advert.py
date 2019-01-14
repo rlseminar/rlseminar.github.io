@@ -7,13 +7,13 @@ from datetime import datetime, timedelta
 import glob
 
 email = """
-To: scan-seminar-l@cornell.edu
-Subject: SCAN seminar: {name}, 1:25 pm, {date:%x}
+To: rlseminar@googlegroups.com
+Subject: RL seminar: {name}, 9:00 am, {date:%x}
 
 Title: {title}
 Speaker: {name}
-Time: {date:%x}, 1:25-2:15
-Location: 406 Gates
+Time: {date:%x}, 9:00-10:00
+Location: 502 Daoyuan
 
 Abstract:
 {abstract}

@@ -13,5 +13,5 @@ task :build do
 end
 
 task :deploy => [:build] do
-  sh "sitecopy --update scan"
+  sh "sitecopy --update rlseminar"
 end
