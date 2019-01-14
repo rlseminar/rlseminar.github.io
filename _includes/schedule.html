@@ -1,0 +1,52 @@
+<!-- Layout: http://veerle.duoh.com/blog/comments/a_css_styled_table/ -->
+{% if page.semester == "Fall" %}
+{% capture date_lo %}{{page.year}}-08-01{% endcapture %}
+{% capture date_hi %}{{page.year}}-12-30{% endcapture %}
+{% elsif page.semester == "Spring" %}
+{% capture date_lo %}{{page.year}}-01-01{% endcapture %}
+{% capture date_hi %}{{page.year}}-06-01{% endcapture %}
+{% else %}
+<p>Semester error!</p>
+{% endif %}
+{% assign date_lo = date_lo | date: '%s' | plus: 0 %}
+{% assign date_hi = date_hi | date: '%s' | plus: 0 %}
+
+<table class="mytable"
+ summary="Scientific Computing and Numerics Seminar, {{ page.semester }} {{ page.year }}"
+ cellspacing="0">
+<tbody>
+  <tr>
+    <th scope="col" abbr="Date" class="nobg">Date</th>
+    <th scope="col" abbr="Info">Speaker and Title</th>
+  </tr>
+  {% assign prev_date = 0 %}
+  {% for talk in site.posts reversed %}
+  {% assign pdate = talk.date | date: '%s' | plus: 0 %}
+  {% if pdate > date_lo and pdate < date_hi %}
+  <tr>
+    <th scope="row">{% if pdate == prev_date %}{% else %}{{ talk.date | date: "%b %d"}}{% endif %}</th>
+    {% if talk.break %}
+    <td class="alt"><b>{{ talk.break }}</b></td>
+    {% elsif talk.speaker %}
+    <td class="alt">
+      {% if talk.speaker.url %}
+      <a href="{{ talk.speaker.url }}">{{ talk.speaker.name }}</a>
+      {% else %}
+      {{ talk.speaker.name }}
+      {% endif %}
+      {% if talk.speaker.affil %}({{ talk.speaker.affil }}){% endif %}
+      {% if talk.title %}{% if talk.title != "TBA" %}
+      <div style="margin-left: 5%;">
+      <a href="{% if talk.abstract_url %}{{ talk.abstract_url }}{% else %}{{ site.baseurl }}{{ talk.url }}{% endif %}">{{ talk.title }}</a>
+      </div>
+      {% endif %}{% endif %}
+    </td>
+    {% else %}
+    <td class="alt"></td>
+    {% endif %}
+  </tr>
+  {% endif %}
+  {% assign prev_date = pdate %}
+  {% endfor %}
+</tbody>
+</table>

@@ -1,0 +1,29 @@
+title: CUHK-Shenzhen Reinforcement Learning Seminar
+email: yingruli@link.cuhk.edu.cn
+description: >
+  The RL seminar covers various methods in reinforcement learning
+  as well as its combination with deep learning (a.k.a Deep RL),
+  from theory, to algorithms, to applications.
+
+
+baseurl: "/"
+url: "https://rlseminar.github.io"
+future: true
+exclude: ["Rakefile", "README.md"]
+
+defaults:
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+  -
+    scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "main"
+
+# Build settings
+markdown: kramdown

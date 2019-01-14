@@ -1,0 +1,17 @@
+---
+layout: default
+---
+
+<div class="page-header">
+<p class="lead">{{ page.title }}</p>
+<p>
+  {% if page.speaker.url %}
+  <a href="{{ page.speaker.url }}">{{ page.speaker.name }}</a>
+  {% else %}
+  {{ page.speaker.name }}
+  {% endif %}
+  ({{ page.speaker.affil }})
+</p>
+</div>
+
+{{ content }}

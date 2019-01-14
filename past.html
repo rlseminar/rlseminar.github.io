@@ -1,0 +1,9 @@
+---
+nav: past
+---
+
+<ul>
+{% for entry in site.data.semesters %}
+<li><a href="{{ entry.url }}">{{ entry.info }}</a></li>
+{% endfor %}
+</ul>
