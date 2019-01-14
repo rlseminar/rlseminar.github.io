@@ -14,7 +14,7 @@ nav: resource
 Another recent survey [Deep Reinforcement Learning](https://arxiv.org/abs/1810.06339) by Yuxin Li Under review for Morgan & Claypool: Synthesis Lectures in Artificial Intelligence and Machine Learning
 draw a comprehensive blueprint on modern (Deep) Reinforcement Learning.
 
-![DRL Blueprint](static/img/drl_survey1.png "blueprint for deep reinforcement learning")
+<img src="static/img/drl_survey1.png" alt="blueprint for deep reinforcement learning" width="100">
 
 ### Courses and books
 
@@ -63,4 +63,4 @@ and more…
 
 ### Concepts in (Deep) Reinforcement Learning
 
-![DRL Concepts](static/img/drl_survey2.png "Concepts in deep reinforcement learning")
+<img src="static/img/drl_survey2.png" alt="bConcepts in deep reinforcement learning" width="100">
