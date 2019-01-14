@@ -7,7 +7,7 @@ description: >
 
 
 baseurl: "/"
-url: "https://rlseminar.github.io"
+url: "https://rlseminar.github.io/"
 future: true
 exclude: ["Rakefile", "README.md"]
 
