@@ -19,7 +19,7 @@ There are a lot of resources and courses we can refer.
  
 - [Spinning Up in Deep RL](https://spinningup.openai.com/en/latest/) by OpenAI
 
-- [Reinforcement Learning: An Introduction](http://incompleteideas.net/book/the-book.html) by the Awesome Richard S. Sutton
+- [Reinforcement Learning: An Introduction](http://incompleteideas.net/book/the-book.html) by the Awesome Richard S. Sutton, Second Edition, MIT Press, Cambridge, MA, 2018
 
 - [Reinforcement Learning and Optimal Control](http://web.mit.edu/dimitrib/www/RLbook.html) by the Awesome Dimitri P. Bertsekas, Athena Scientific, 2019
 
