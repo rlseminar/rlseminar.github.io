@@ -5,7 +5,7 @@ nav: about
 The focus of this seminar is various methods in reinforcement learning as well as its combination with deep learning, from theory, to algorithms, to applications.
 
 Questions or comments about the seminar should be sent to
-[Yingru Li][yingru], [Mark Gluzman][mark] or [Jim Dai][Jim].
+[Yingru Li][yingru], [Mark Gluzman][mark] or [Jim Dai][jim].
 Please send email with the subject `join`
 to `rlseminar+subscribe@googlegroups.com`
 if you wish to subscribe to the seminar announcement mailing list.
