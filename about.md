@@ -5,15 +5,15 @@ nav: about
 The focus of this seminar is various methods in reinforcement learning as well as its combination with deep learning, from theory, to algorithms, to applications.
 
 Questions or comments about the seminar should be sent to
-[Yingru Li][yingru], [Alex Townsend][ajt] or [Alex Vladimirsky][vlad].
+[Yingru Li][yingru], [Mark Gluzman][mark] or [Jim Dai][Jim].
 Please send email with the subject `join`
 to `rlseminar+subscribe@googlegroups.com`
 if you wish to subscribe to the seminar announcement mailing list.
 
 The seminar meets Mondays, 9:00-10:00 am (UTC+8), in 502 Daoyuan Building.
 
-[yingru]: yingruli@link.cuhk.edu.cn
-[mark]: mg2289@cornell.edu
+[yingru]: mailto:yingruli@link.cuhk.edu.cn
+[mark]: mailto:mg2289@cornell.edu
 [jim]: https://people.orie.cornell.edu/jdai/
 
 <iframe id="forum_embed"
