@@ -35,6 +35,8 @@ There are a lot of resources and courses we can refer.
 
 ### Related workshop
 
+- [Deep Learning and Reinforcement Learning Summer School](http://videolectures.net/DLRLsummerschool2018_toronto/), Toronto 2018 hosted by the Canadian Institute For Advanced Research (CIFAR) and the Vector Institute, with participation and support from the Alberta Machine Intelligence Institute and the Institut québécois d’intelligence artificielle (MILA).
+
 - [Exploration in RL](https://sites.google.com/view/erl-2018/home) at ICML 2018
   - Wonderful video records at [youtube](https://www.youtube.com/playlist?list=PLbSAfmOMweH3YkhlH0d5KaRvFTyhcr30b) including the keynote speech by Ian Osband and panel dicussion modulated by Ben Von Roy.
 
@@ -64,3 +66,7 @@ and more…
 ### Concepts in (Deep) Reinforcement Learning
 
 <img src="static/img/drl_survey2.png" alt="bConcepts in deep reinforcement learning" width="500" align="middle">
+
+### Future Events
+
+- [Deep Learning and Reinforcement Learning Summer School](https://dlrlsummerschool.ca/), July 24 to August 2, 2019, University of Alberta in at Edmonton, Canada.
