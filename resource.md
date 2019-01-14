@@ -5,12 +5,18 @@ nav: resource
 
 ### Surveys
 
-Deep reinforcement learning is the combination of reinforcement learning (RL) and deep learning.
-This field of research has been able to solve a wide range of complex decision making tasks that were previously out of reach for a machine.
-Thus, deep RL opens up many new applications in domains such as healthcare, robotics, smart grids, finance, and many more. ------ Vincent François-Lavet, Peter Henderson, Riashat Islam, Marc G. Bellemare and Joelle Pineau (2018), “[An Introduction to Deep Reinforcement Learning](https://arxiv.org/abs/1811.12560)”, to appear in Foundations and Trends in Machine Learning: Vol. 11, No. 3-4. DOI: 10.1561/2200000071.
+> Deep reinforcement learning is the combination of reinforcement learning (RL) and deep learning.
+> This field of research has been able to solve a wide range of complex decision making tasks that were previously out of reach for a machine.
+> Thus, deep RL opens up many new applications in domains such as healthcare, robotics, smart grids, finance, and many more.
 
-[Deep Reinforcement Learning](https://arxiv.org/abs/1810.06339), Yuxin Li Under review for Morgan & Claypool: Synthesis Lectures in Artificial Intelligence and Machine Learning
+------ Vincent François-Lavet, Peter Henderson, Riashat Islam, Marc G. Bellemare and Joelle Pineau (2018), “[An Introduction to Deep Reinforcement Learning](https://arxiv.org/abs/1811.12560)”, in Foundations and Trends in Machine Learning: Vol. 11, No. 3-4. DOI: 10.1561/2200000071.
 
+Another recent survey [Deep Reinforcement Learning](https://arxiv.org/abs/1810.06339) by Yuxin Li Under review for Morgan & Claypool: Synthesis Lectures in Artificial Intelligence and Machine Learning
+draw a comprehensive blueprint on modern (Deep) Reinforcement Learning.
+
+![DRL Blueprint][drl1]
+
+[drl1]: static/img/drl_survey1.png "blueprint for deep reinforcement learning"
 
 ### Courses and books
 
@@ -31,21 +37,22 @@ There are a lot of resources and courses we can refer.
 
 ### Related workshop
 
-- [Exploration in RL](https://sites.google.com/view/erl-2018/home)
+- [Exploration in RL](https://sites.google.com/view/erl-2018/home) at ICML 2018
+  - Wonderful video records at [youtube](https://www.youtube.com/playlist?list=PLbSAfmOMweH3YkhlH0d5KaRvFTyhcr30b) including the keynote speech by Ian Osband and panel dicussion modulated by Ben Von Roy.
 
-- [Workshop on Meta-Learning](http://metalearning.ml/2018/) (MetaLearn 2018)
+- [Workshop on Meta-Learning](http://metalearning.ml/2018/) (MetaLearn 2018) at NeurIPS 2018
 
-- [Infer to Control](https://sites.google.com/view/infer2control-nips2018): Workshop on Probabilistic Reinforcement Learning and Structured Control
+- [Infer to Control](https://sites.google.com/view/infer2control-nips2018): Workshop on Probabilistic Reinforcement Learning and Structured Control at NeurIPS 2018
 
-- [Deep Reinforcement Learning Workshop](https://sites.google.com/view/deep-rl-workshop-nips-2018/home)
+- [Deep Reinforcement Learning Workshop](https://sites.google.com/view/deep-rl-workshop-nips-2018/home) at NeurIPS 2018
 
-- [Modeling the Physical World: Perception, Learning, and Control](http://phys2018.csail.mit.edu/program.html)
+- [Modeling the Physical World: Perception, Learning, and Control](http://phys2018.csail.mit.edu/program.html) at NeurIPS 2018
 
-- [Workshop on Causal Learning](https://sites.google.com/view/nips2018causallearning/home)
+- [Workshop on Causal Learning](https://sites.google.com/view/nips2018causallearning/home) at NeurIPS 2018
 
-- [Continual learning Workshop](https://sites.google.com/view/continual2018/home)
+- [Continual learning Workshop](https://sites.google.com/view/continual2018/home) at NeurIPS 2018
 
-- [Automatic Machine Learning](https://www.automl.org/events/) (AutoML) Tutorial at NeurIPS 2018 by Frank Hutter and Joaquin Vanschoren
+- [Automatic Machine Learning](https://www.automl.org/events/) (AutoML) Tutorial at NeurIPS 2018 by Frank Hutter and Joaquin Vanschoren at NeurIPS 2018
 
 
 ### Resources collection in github
@@ -55,3 +62,9 @@ There are a lot of resources and courses we can refer.
 - [Awesome RL](https://github.com/aikorea/awesome-rl)
 
 and more…
+
+### Concepts in (Deep) Reinforcement Learning
+
+![DRL Concepts][drl2]
+
+[drl2]: static/img/drl_survey2.png "Concepts in deep reinforcement learning"
