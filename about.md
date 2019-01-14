@@ -2,7 +2,7 @@
 nav: about
 ---
 
-The focus of this seminar is various methods in reinforcement learning as well as its combination with deep learning, from theory, to algorithms, to applications.
+The focus of this seminar is various methods in reinforcement learning as well as its combination with deep learning (a.k.a. Deep RL), from theory, to algorithms, to applications.
 
 Questions or comments about the seminar should be sent to
 [Yingru Li][yingru], [Mark Gluzman][mark] or [Jim Dai][jim].
