@@ -3,6 +3,10 @@ title: Resources
 nav: resource
 ---
 
+### Ongoing courses and workshops
+
+- [CS234: Reinforcement Learning Winter 2019](http://web.stanford.edu/class/cs234/index.html) by Emma Brunskill
+
 ### Surveys
 
 > Deep reinforcement learning is the combination of reinforcement learning (RL) and deep learning.
