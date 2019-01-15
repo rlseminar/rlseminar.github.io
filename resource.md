@@ -19,7 +19,7 @@ draw a comprehensive blueprint on modern (Deep) Reinforcement Learning.
 ### Courses and books
 
 There are a lot of resources and courses we can refer.
-- CS 294-112 (2018Fall) [Deep Reinforcement Learning]((http://rail.eecs.berkeley.edu/deeprlcourse/)) at UC Berkeley
+- CS 294-112 (2018Fall) [Deep Reinforcement Learning](http://rail.eecs.berkeley.edu/deeprlcourse/) at UC Berkeley
  
 - [Spinning Up in Deep RL](https://spinningup.openai.com/en/latest/) by OpenAI
 
