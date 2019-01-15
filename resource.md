@@ -69,4 +69,4 @@ and more…
 
 ### Future Events
 
-- [Deep Learning and Reinforcement Learning Summer School](https://dlrlsummerschool.ca/), July 24 to August 2, 2019, University of Alberta in at Edmonton, Canada.
+- [Deep Learning and Reinforcement Learning Summer School](https://dlrlsummerschool.ca/), July 24 to August 2, 2019, University of Alberta, Edmonton, CA.
