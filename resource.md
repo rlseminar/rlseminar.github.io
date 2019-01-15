@@ -67,10 +67,12 @@ There are a lot of resources and courses we can refer.
 
 and more…
 
-### Concepts in (Deep) Reinforcement Learning
-
-<img src="static/img/drl_survey2.png" alt="bConcepts in deep reinforcement learning" width="500" align="middle">
-
 ### Future Events
 
 - [Deep Learning and Reinforcement Learning Summer School](https://dlrlsummerschool.ca/), July 24 to August 2, 2019, University of Alberta, Edmonton, CA.
+
+### Concepts in (Deep) RL and AI
+
+<img src="static/img/drl_survey2.png" alt="Concepts in deep reinforcement learning" width="500" align="middle">
+
+<img src="static/img/drl_survey3.png" alt="Concepts in deep reinforcement learning" width="500" align="middle">
