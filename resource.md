@@ -15,7 +15,7 @@ nav: resource
 
 ------ Vincent François-Lavet, Peter Henderson, Riashat Islam, Marc G. Bellemare and Joelle Pineau (2018), “[An Introduction to Deep Reinforcement Learning](https://arxiv.org/abs/1811.12560)”, in Foundations and Trends in Machine Learning: Vol. 11, No. 3-4. DOI: 10.1561/2200000071.
 
-Another recent survey [Deep Reinforcement Learning](https://arxiv.org/abs/1810.06339) by Yuxin Li Under review for Morgan & Claypool: Synthesis Lectures in Artificial Intelligence and Machine Learning
+Another recent survey [Deep Reinforcement Learning](https://arxiv.org/abs/1810.06339) by Yuxi Li Under review for Morgan & Claypool: Synthesis Lectures in Artificial Intelligence and Machine Learning
 draw a comprehensive blueprint on modern (Deep) Reinforcement Learning.
 
 <img src="static/img/drl_survey1.png" alt="blueprint for deep reinforcement learning" width="500" align="middle">
