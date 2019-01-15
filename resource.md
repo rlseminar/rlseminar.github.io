@@ -75,4 +75,4 @@ and more…
 
 <img src="static/img/drl_survey2.png" alt="Concepts in deep reinforcement learning" width="500" align="middle">
 
-<img src="static/img/drl_survey3.png" alt="Concepts in deep reinforcement learning" width="500" align="middle">
+<img src="static/img/drl_survey3.png" alt="Concepts in artificial intelligence" width="500" align="middle">
