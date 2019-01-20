@@ -12,6 +12,8 @@ to `rlseminar+subscribe@googlegroups.com`
 if you wish to subscribe to the seminar announcement mailing list.
 
 The seminar meets Mondays, 9:00-10:00 am (UTC+8), in 502 Daoyuan Building.
+We also host `Zoom` meeting room for remote connection, please **subscribe** the mailing list first
+to retrieve the link for zoom.
 
 [yingru]: mailto:yingruli@link.cuhk.edu.cn
 [mark]: mailto:mg2289@cornell.edu
