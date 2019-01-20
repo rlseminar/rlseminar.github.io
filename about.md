@@ -7,7 +7,8 @@ The focus of this seminar is various methods in reinforcement learning as well a
 
 Questions or comments about the seminar should be sent to
 [Yingru Li][yingru], [Mark Gluzman][mark] or [Jim Dai][jim].
-Please send email with the subject `join`
+Please send email with the subject `join` with
+your *name*, *position* and *affiliation* as well as your *motivation* to join
 to `rlseminar+subscribe@googlegroups.com`
 if you wish to subscribe to the seminar announcement mailing list.
 
