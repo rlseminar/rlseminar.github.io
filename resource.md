@@ -82,3 +82,11 @@ and more…
 ### Healthcare
 
 - The Artificial Intelligence Clinician learns optimal treatment strategies for sepsis in intensive care [Nature](https://www.nature.com/articles/s41591-018-0213-5) [PDF](/static/files/AI-Clinician-optimal-treatment.pdf)
+
+### Games
+
+- TStarBots: Defeating the Cheating Level Builtin AI in StarCraft II in the Full Game [whitepaper](https://arxiv.org/pdf/1809.07193.pdf) [github](https://github.com/Tencent/TStarBots)
+
+### Robotics
+
+- Learning agile and dynamic motor skills for legged robots [Science Robotics](http://robotics.sciencemag.org/content/4/26/eaau5872)
