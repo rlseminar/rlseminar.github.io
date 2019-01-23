@@ -76,3 +76,9 @@ and more…
 <img src="static/img/drl_survey2.png" alt="Concepts in deep reinforcement learning" width="500" align="middle">
 
 <img src="static/img/drl_survey3.png" alt="Concepts in artificial intelligence" width="500" align="middle">
+
+## Applications
+
+### Healthcare
+
+- The Artificial Intelligence Clinician learns optimal treatment strategies for sepsis in intensive care [Nature](https://www.nature.com/articles/s41591-018-0213-5) [PDF](/static/files/AI-Clinician-optimal-treatment.pdf)
