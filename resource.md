@@ -5,6 +5,9 @@ nav: resource
 
 ### Ongoing courses and workshops
 
+- [CSE 691 Reinforcement Learning and Optimal Control Winter 2019](http://web.mit.edu/dimitrib/www/RLbook.html) at ASU by Dimitri P. Bertsekas
+  - Find slides and videos at `SLIDES AND VIDEO LECTURES`
+
 - [CS234: Reinforcement Learning Winter 2019](http://web.stanford.edu/class/cs234/index.html) by Emma Brunskill
 
 ### Surveys
