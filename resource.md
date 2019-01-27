@@ -90,6 +90,12 @@ and more…
 
 - TStarBots: Defeating the Cheating Level Builtin AI in StarCraft II in the Full Game [whitepaper](https://arxiv.org/pdf/1809.07193.pdf) [github](https://github.com/Tencent/TStarBots)
 
+- [AlphaStar: Mastering the Real-Time Strategy Game StarCraft II](https://deepmind.com/blog/alphastar-mastering-real-time-strategy-game-starcraft-ii/)
+
 ### Robotics
 
 - Learning agile and dynamic motor skills for legged robots [Science Robotics](http://robotics.sciencemag.org/content/4/26/eaau5872)
+
+## Infrastructure and Computing framework
+
+- Ray: a flexible, high-performance distributed execution framework [github](https://github.com/ray-project/ray) [documents](https://ray.readthedocs.io/en/latest/)
