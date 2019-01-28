@@ -1,0 +1,832 @@
+\documentclass{beamer}
+\usetheme{CambridgeUS}
+\usefonttheme{professionalfonts}
+\usepackage{times}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{verbatim}
+\usetikzlibrary{arrows,shapes}
+\usepackage{graphicx}
+%\usepackage{subcaption}
+\usepackage[]{algorithm2e}
+%\usepackage{cite}
+\usepackage[utf8]{inputenc}
+\title{Introduction to Reinforcement Learning}
+\author{Jim Dai }
+\institute{iDDA, CUHK-Shenzhen}
+\date{January 21, 2019}
+%\graphicspath{ {C:/Users/mg2289/Desktop/tex/presentation RLPN} }
+%\logo{\includegraphics[scale=0.05]{Cornell}}
+%\bibliography{replicator}
+\usepackage[scaled=0.85]{beramono}
+\usepackage{setspace}
+\usepackage{color}
+\usepackage[]{algorithm2e}
+\usepackage{wrapfig}
+\usepackage{lipsum}  % generates filler text
+%\usepackage{blkarray}
+\usepackage{amsmath,amsthm,amssymb,epsfig,natbib}
+ \usepackage{tikz}
+ \usepackage{centernot}
+ \usetikzlibrary{positioning}
+ \usetikzlibrary{calc,fit}
+ \usepgflibrary{shapes.geometric}
+ \usepackage{tkz-graph}
+ \usetikzlibrary{arrows}
+
+\usefonttheme{professionalfonts}
+\usepackage{times}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{verbatim}
+\usetikzlibrary{arrows,shapes}
+
+
+\newtheorem{assumption}{Assumption}
+\newtheorem{remark}{Remark}
+
+\usetikzlibrary{automata,positioning}
+\setbeamerfont{frametitle}{size=\normalsize,series=\bfseries}
+
+%\usepackage[backend=biber, style=chem-angew, safeinputenc]{biblatex}
+%\addbibresource{replicator.bib}
+\makeatletter
+\def\blx@maxline{77}
+\makeatother
+\newcommand{\Prob}{\mathbb{P}}
+\def\R{{\mathbb R}}
+\def\X{{\mathcal X}}
+\def\U{{\mathcal U}}
+\def\W{{\mathcal W}}
+\def\Y{{\mathcal Y}}
+\def\E{{\mathbb E}}
+\def\I{{\mathbb I}}
+\def\A{{\mathcal A}}
+\def\sign{{\rm sign}}
+\def\G{{\mathcal G}}
+\def\M{{\mathcal M}}
+\def\P{{\mathcal P}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\abs}[1]{|#1|}
+%\DeclareMathOperator{\argmin}{argmin}
+%\singlespacing
+\setstretch{1.5}
+\newcommand*\colvec[3][]{
+    \begin{pmatrix}\ifx\relax#1\relax\else#1\\\fi#2\\#3\end{pmatrix}
+}
+
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>
+    \frametitle{Outline for section \thesection}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+% \usepackage{setspace}% http://ctan.org/pkg/setspace
+% \let\oldframetitle\frametitle% Store \frametitle in \oldframetitle
+% \renewcommand{\frametitle}[1]{%
+%   \oldframetitle{#1}\setstretch{2}}
+
+
+\setlength{\parindent}{2em}
+%\addbibresource{replicator.bib}
+
+% \setbeamertemplate{frametitle}{
+%     \vspace{2cm}\\
+%     \insertframetitle
+% }
+
+
+\begin{document}
+\footnotesize
+
+
+
+\maketitle
+
+
+
+% \begin{frame}{Markov Reward Process}
+
+% \begin{itemize}
+%   \item Suppose $x = \{x_k: k=0, 1,...\}$ is a DTMC on the space $S = \{1, 2\}$ with transition matrix
+
+% \begin{equation}
+% P = \left(
+%       \begin{array}{cc}
+%         0.8 & 0.2 \\
+%         0.5 & 0.5 \\
+%       \end{array}
+%     \right)
+% \end{equation}
+%   \item Suppose
+%   \begin{equation}
+%   c(1) = \$10,\quad\quad c(2) = -\$1
+%    \end{equation}
+%   \item Find for $\beta = 0.9$
+
+% $
+% V(1) = \E\Big[c(x_0)+\beta c(x_1)+\beta^2 c(x_2) + ...| x_0 = 1\Big] = \E\Big[\sum\limits_{t=0}^\infty \beta^t c(x_t)| x_0=1\Big]
+% $
+% $
+% V(2) = \E\Big[c(x_0)+\beta c(x_1)+\beta^2 c(x_2) + ...| x_0 = 2\Big] = \E\Big[\sum\limits_{t=0}^\infty \beta^t c(x_t)| x_0=2\Big]
+% $
+
+% \end{itemize}
+
+% \end{frame}
+
+
+
+
+
+% \begin{frame}{Markov Reward Process}
+% \begin{itemize}
+% \item Matrix method:
+% \begin{equation}
+% V = \left(
+%       \begin{array}{c}
+%         V(1) \\
+%         V(2) \\
+%       \end{array}
+%     \right)=
+% (I+\beta P+\beta^2 P^2+...)c =(I-\beta P)^{-1}c =  \left(
+%   \begin{array}{c}
+%     \$24.94 \\
+%     \$9.65 \\
+%   \end{array}
+% \right)
+% \end{equation}
+
+
+% \item Backward induction:
+% \begin{itemize}
+%   \item Define $V_N = \E[\sum\limits_{k=0}^N c(x_k)| x_0]$, $V_0 = c$
+%   \item \begin{center}
+%     $V =  c+Pc+P^2c = c+P(c+Pc) = c+P(c+PV_0) = c+PV_1 = V_2$
+%   \end{center}
+
+
+%   \item
+%     $T[V] = c+PV, \text{ then }$ $$V = T^2[c]$$
+
+
+% \end{itemize}
+
+
+
+% \end{itemize}
+% \end{frame}
+
+\begin{frame}
+  \frametitle{Sequential decision problems}
+  \begin{itemize}
+  \item Let $N>0$  be the time horizon of the decision problem.
+  \item For each $k\in [0, N+1]$, $x_k\in \mathcal{X}_k$ is the state at time $k$.
+  \item At time $k$, observing state $x_k$, an action $a_k\in \mathcal{A}_k$ is taken.
+  \item Given $(x_k, a_k)$, a new (random) state $x_{k+1}$ is observed and
+   a (one-step) cost $g_k(x_k, a_k, x_{k+1})$ is incurred.
+  \item The sequence
+    \begin{align*}
+      (x_0, a_0, x_1, a_1, \ldots, x_N, a_N, x_{N+1})
+    \end{align*}
+    is known as an episode.
+
+
+  \end{itemize}
+
+
+
+\end{frame}
+\begin{frame}
+  \frametitle{Policies and total costs}
+  \begin{itemize}
+  \item The total cost for the episode is
+    \begin{align*}
+      \sum_{k=0}^N g_k(x_k, a_k, x_{k+1}).
+    \end{align*}
+
+  \item $ \pi=\{\mu_0, \mu_1, \ldots, \mu_N\}$ is known as a policy if
+    for    $ k \in [0, N]$
+    \begin{itemize}
+    \item     $\mu_k: \mathcal{X}_k\to \mathcal{A}_k$,
+     \item  $a_k = \mu_k(x_k)$.
+    \end{itemize}
+
+  \item Expected total cost $J_\pi(x) = \E_{\pi}\Big[\sum\limits_{k=0}^N g_k(x_k, a_k, x_{k+1})| x_0=x \Big]$,
+ where $\E_{\pi}$ is the expectation over randomness for transitions from $x_k$ to
+  $x_{k+1}$,  $k\in [0, N]$,  under policy $\pi$.
+
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Models for dynamics}
+  \begin{itemize}
+  \item The system state at the next decision epoch is
+    determined by
+    $$\Prob\Big\{x_{k+1} = y~\Big| x_k = x, a_k=a\Big\} = P_k(x, a,y)$$
+    for each $x\in \mathcal{X}_k$, $a_k\in \mathcal{A}_k$, and $y\in \mathcal{X}_{k+1}$.
+  \item Case I: transition probabilities are \blue{known.} \red{The  model is known.}
+
+  \item Case II: transition probabilities are \blue{unknown}, but episodes can be observed from data.
+
+  \item Case III: transition probabilities are \blue{unknown}, but
+        given $(x_k, a_k)$, $x_{k+1}$ can be sampled. \red{A simulator is  available.}
+
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Objective and optimal value function}
+  \begin{itemize}
+ \item  $\Pi$ is the set of feasible policies. The optimal value function is
+  \begin{equation}\label{eq:optcost}
+  J^*(x) = \inf\limits_{\pi\in \Pi} J_\pi(x), ~~x\in \X_0.
+  \end{equation}
+A policy $\pi^*$ is an optimal policy if  $J^*(x) = J_{\pi^*}(x)$.
+
+\item In general, the infimum in (\ref{eq:optcost}) may not be achievable. In such a case, an optimal policy does not exist.
+  % \begin{equation}
+  % J^*(x) = \inf\limits_{\pi\in \Pi} J_\pi(x), ~~x\in \X_0,
+  % \end{equation}
+
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Bellman equation and backward induction algorithm}
+  \begin{itemize}
+  \item Bellman equation when  $N$ is finite.
+    \begin{align*}
+      & J_{N+1}(x) =0, x\in \mathcal{X}_{N+1}, \text{ and \blue{for $k=N, \ldots, 0$},}\\
+      & J_{k}(x) = \min_{a\in \mathcal{A}_k(x) }\sum_{y\in \mathcal{X}_{k+1}} P_k(x,a, y)\Big(g_k(x,a, y) + J_{k+1}(y)\Big)  \quad  \blue{\text{ for }x\in \mathcal{X}_{k}}, \\
+     &\text{(cost-to-go function $J_k$) } \\
+     & J^*(x) = J_0(x), \quad x\in \mathcal{X}_0. \qquad \blue{\text{complexity: } \Pi_{k=0}^N\abs{\mathcal{A}_k}\abs{\mathcal{X}_{k+1}}.}
+    \end{align*}
+  \item Bellman equation when  $N$ is infinite, assuming time homogeneity with
+    a discounted factor $\beta<1$, \qquad (\text{\red{$P_k=P$ and $g_k=\beta^k g$}})
+    \begin{align*}
+      J^*(x) = \min_{a\in \mathcal{\red{A}}} \sum_{y\in \mathcal{\red{X}}} \red{P}(x,a,y)
+      \Big(\red{g}(x,a, y)+ \beta J^*(y) \Big)
+    \end{align*}
+  \end{itemize}
+\end{frame}
+
+
+% \begin{frame}{Time-homogeneous Markov Decision Process}
+
+
+
+%  MDP is defined as  $\M = (\X, \A, P, g)$, where
+% \begin{itemize}
+%  \item  $\mathcal{X}$ is a state space,  $\mathcal{A} = \bigcup\limits_{x\in\X} A(x)$ is an action space.
+%  \item  $P$ is a state transition probability kernel.
+
+% %
+% %       \item transition $f:\mathcal{X}\times \mathcal{A}\times \mathcal{W} \rightarrow \mathcal{X} $ s.t.
+% %       $$
+% %       x_{k+1} = f(x_k, a_k, w_k),~~k=0,1,...
+% %       $$
+% %        where $\{w_k:k\in \mathbb{N}\}$ is an iid sequence with distr. $P(w_k|x_k, a_k)$,
+% %
+% %
+
+%  The system state at the next decision epoch is determined by $$\Prob\Big\{x_{k+1} = y~\Big| x_k = x, a_k=a\Big\} = P(x, a,y)$$
+% $x_k\in \mathcal{X}$, $a_k\in A(x_k)\subset\mathcal{A}.$
+
+% \item $g:\X\times \A\times \X \rightarrow \R$ is an one-step cost function.
+
+% \end{itemize}
+% \end{frame}
+
+% \begin{frame}{Markov Decision Problem}
+
+
+% \begin{itemize}
+
+%   \item A feasible policy $\pi$ is defined to be deterministic, stationary policy
+%   $\mu$ s.t. $\mu:\X\rightarrow \A,$ $\mu(x)\in A(x)\subset \A$ for each $x\in \X$ and $k\in \mathbb{N}.$
+
+%   \item For a given policy $\mu$, a \emph{value function} $J_\mu:\X\rightarrow \R$ is:
+
+%   \begin{itemize}
+%     \item $0<\beta<1$ is the discount factor
+%       \begin{equation}
+%   J_\mu(x) = \E\Big[\sum\limits_{k=0}^\infty \beta^k g\big(x_k, \mu(x_k), x_{k+1}\big)| x_0 = x\Big]
+%   \end{equation}
+%     \item
+%     Finite horizon:   $J_\mu(x ) = \E\Big[\sum\limits_{k=0}^N g(x_k, \mu(x_k)) |x_0 = x\Big]$
+
+%     Average cost: $J_\mu(x ) =\lim\limits_{N\rightarrow \infty}\frac{1}{N} \E\Big[\sum\limits_{k=0}^{N-1} g(x_k, \mu(x_k)) |x_0 = x\Big]$
+
+%   \end{itemize}
+
+
+% \end{itemize}
+% \end{frame}
+
+
+\begin{frame}{Bellman's equation: optimal value function}
+
+
+
+  \begin{theorem}[Bellman optimality equation; Bertsekas, Proposition 1.2.3]
+    Assume that the state space $\X$ and action space $\A$ are finite.
+   
+    (a) The optimal value function $J^*$ satisfies
+\begin{equation*}
+J^*(x) = \min\limits_{a\in \mathcal{A}(x)}\E_{x'\sim P(\cdot|x, a)}\Big[ g(x, a, x') + \beta J^* (x') \Big]  ~\text{  for all $x\in \X$} % ~J^* = TJ^*
+\end{equation*}
+(b) $J^*$ is the unique solution of the Bellman's equation.
+
+\end{theorem}
+
+\indent Notation: \quad $\Prob\{x'=y| x, a\}=P(x,a,y)$ for $y\in \mathcal{X}$.
+\begin{align*}
+ \sum_{y\in \mathcal{\red{X}}} \red{P}(x,a,y)
+  \Big(\red{g}(x,a, y)+ \beta J^*(y) \Big) &=  \E_{x'\sim P(\cdot|x, a)}\Big[ g(x, a, x') + \beta J^* (x') \Big]
+%\\&= \E \Big[ g(x, a, x') + \beta J^* (x') \Big]
+\end{align*}
+
+\end{frame}
+
+
+
+\begin{frame}{Bellman's equation: optimal policy}
+% \begin{frame}{Optimal cost and policy}
+
+  \begin{theorem}[Bertsekas, Proposition 1.2.5]
+    Assume that the state space $\X$ and action space $\A$ are finite. 
+    
+    Let $J^*: \mathcal{X}\to \R$ be the unique solution to the Bellman equation.
+
+    Define $\mu^*: \mathcal{X}\to \mathcal{A}$ via
+\begin{equation*}
+\mu^*(x) = \argmin\limits_{a\in \mathcal{A}(x)}\E_{x'\sim P(\cdot|x, a)}\Big[ g(x, a, x') + \beta J^* (x') \Big]  ~\text{  for all $x\in \X$}. % ~J^* = TJ^*
+\end{equation*}
+The stationary policy $\pi^*=\{\mu^*, \ldots, \mu^*, \ldots\}$ is optimal.
+\end{theorem}
+
+\noindent For a function $h:\mathcal{X}\to \R$, define \blue{$h$-greedy policy} $\mu_h: \mathcal{X}\to \mathcal{A}$ via
+\begin{align*}
+\mu_{\red{h}}(x) = \argmin\limits_{a\in \mathcal{A}(x)}\E_{x'\sim P(\cdot|x, a)}\Big[ g(x, a, x') + \beta \red{h}(x') \Big]  ~\text{  for all $x\in \X$}. % ~J^* = TJ^*
+\end{align*}
+
+
+
+\end{frame}
+
+
+
+% \begin{itemize}
+% \item For a given policy $\mu$, a \emph{state-action function} $Q_\mu:\X\times \A\rightarrow \R$ is:
+% \begin{equation}
+%   Q_\mu(x , a) = \E\Big[g(x, a, x_1)+\sum\limits_{k=1}^\infty \beta^k g(x_k, \mu(x_k), x_{k+1})\Big]
+% \end{equation}
+%  \end{itemize}
+
+
+
+
+\begin{frame}{Bellman operator}
+\begin{itemize}
+  \item Define Bellman operator $T$:  for  $J:\X\rightarrow \R$
+    \begin{align*}
+      (TJ)(x) = \min\limits_{a\in \A(x)} \E_{x'\sim P(\cdot|x, a)}\Big[ g(x, a, x') +\beta J(x') \Big]
+          \end{align*}
+
+  \item Fix a  stationary policy $\mu$. Define its Bellman operator $T_\mu$:  for  $J:\X\rightarrow \R$
+    \begin{align*}
+(T_\mu J)(x) = \E_{x'\sim P(\cdot|x, \mu(x))}\Big[ g(x, \mu(x), x') +\beta J(x') \Big]
+    \end{align*}
+\item For any $J$,
+  \begin{align*}
+    (T_{\mu_J}J )(x) = (T J)(x) \quad x\in \mathcal{X}.
+  \end{align*}
+
+\end{itemize}
+\end{frame}
+
+
+
+
+
+\begin{frame}{Value iteration}
+\begin{theorem}[Bertsekas, Proposition 1.2.1]
+For any function $J:\X\rightarrow \R$, we have for all $x\in \X$,
+\begin{equation*}
+J^*(x) = \lim\limits_{N\rightarrow \infty} (T^N J)(x).
+\end{equation*}\end{theorem}
+\begin{itemize}
+
+\item Value iteration: $J^{n} = TJ^{n-1}$, starting with arbitrary $J^0 = J.$
+\item Convergence rate:
+  \begin{align*}
+& \max\limits_{x\in \X}|J^N(x)  - J^*(x)|  = \max\limits_{x\in \X}|T J^{N-1}(x)  - TJ^*(x)|\leq \\
+& \beta\max\limits_{x\in \X}|J^{N-1}(x)  - J^*(x)|\leq\beta^N\max\limits_{x\in \X}|J(x)  - J^*(x)|.
+\end{align*}
+
+\end{itemize}
+\end{frame}
+
+
+
+
+
+\begin{frame}{Value iteration: Complexity}
+\begin{itemize}
+  \item One iteration step, for one state $x\in \X$:
+
+  Let $g(x, a) =  \sum\limits_{y\in \X}P(x, a, y)g(x, a, y) $ be expected cost, then
+
+  $$J^n(x) =(TJ^{n-1})(x)= \min\limits_{a\in A(x)} \Big[g(x, a) +\beta\sum\limits_{y\in \X} P(x, a, y)J^{n-1}(y)\Big]$$
+
+  The complexity is $|\A||\X|$.
+  \item Complexity of value iteration algorithm for $N$ steps:$$N|\A||\X|^2.$$
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Policy evaluation}
+  \begin{itemize}
+  \item
+
+  Given a stationary policy $\mu$, its value function $J_\mu$
+ satisfies Bellman equation
+    \begin{align}\label{eq:policyEva}
+      J_\mu(x) = g(x, \mu(x)) + \beta \sum_{y\in \mathcal{X}} P(x,\mu(x), y) J_\mu(y) \quad x\in \mathcal{X}.
+    \end{align}
+  \item Thus
+    \begin{align*}
+      J_\mu = (I-\beta P_\mu)^{-1} g_\mu,
+    \end{align*}
+    where $g$ is an $\mathcal{X}$-vector with entries $g_\mu(x)=g(x, \mu(x))$ and $P_\mu$ is an $\mathcal{X}\times \mathcal{X}$ matrix with entries $P_\mu(x,y)=P(x, \mu(x), y)$.
+
+\item There are many algorithms  solving (\ref{eq:policyEva}).
+
+  \end{itemize}
+
+\end{frame}
+\begin{frame}{Policy iteration}
+\begin{itemize}
+  \item Step 1: (Initialization) Guess an initial stationary policy $\mu^0.$
+
+  \item Step 2: (Policy evaluation: Find $J_{\mu^k}$)
+
+  Solve $J_{\mu^k} = T_{\mu^k}J_{\mu^k}$ or the linear system of equations w.r.t. $J$:
+  \begin{equation*}
+  (I-\beta P_{\mu^k})J=g_{\mu^k}
+  \end{equation*}
+
+  \item Step 3: (Policy improvement: Find $J_{\mu^k}$-greedy policy)
+
+  Obtain a new stationary policy $\mu^{k+1}$ that is $J_{\mu^k}$-greedy.
+
+  If $J_{\mu^k} = J_{\mu^{k+1}}$ stop; else return to step 2.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Policy iteration}
+$
+ \begin{array}{c}
+    \mu^k \\ \text{old policy}
+  \end{array}\longrightarrow \begin{array}{c}
+    J_{\mu^k} \\ \text{value function of the old policy}
+  \end{array}\longrightarrow \begin{array}{c}
+    \mu^{k+1}  \\ \text{new improved policy }
+  \end{array}
+  $
+
+  \begin{theorem}[Bertsekas, Proposition 2.3.1]
+Fix a policy $\mu$. Let $\hat \mu$ be a $J_\mu$-greedy policy.
+  Then we have $$J_{\hat \mu}(x)\leq J_\mu(x),~~~\text{for each }x\in \X.$$
+
+  Moreover, if $\mu$ is not optimal, strict inequality holds for at least one state.
+  \end{theorem}
+\end{frame}
+
+\begin{frame}{Reinforcement learning}
+\begin{itemize}
+\item Dynamic Programming:
+
+- model of the environment's dynamics is \red{given} ($P,g$ are \blue{known}).
+
+\item Reinforcement learning:
+
+- model of the environment's dynamics is \red{not given} ($P,g$ are \blue{unknown}).
+
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Policy evaluation}
+\begin{itemize}
+\item Given a stationary policy $\mu$ we want to estimate
+\begin{center}
+$J_\mu(x) = \E\Big[\sum\limits_{k=0}^\infty \beta^k g(x_k, \mu(x_k), x_{k+1})| x_0 = x \Big]$
+\end{center}
+\item $J_\mu$ has to satisfy Bellman equation:
+  \begin{align*}
+    J_{\mu}(x) & = \E[g(x, \mu(x), x_1)] + \beta \E[J_{\mu}(x_1)] \\
+%               & = \sum_{y\in \mathcal{X}} P(x,\mu(x), y)\Big(g(x,\mu(x), y)+ \beta J_\mu(y)\Big) \\
+              & = g_\mu(x) + \beta(P_\mu J_\mu)(x) = (T_{\mu} J_{\mu})(x)
+  \end{align*}
+
+
+
+\item Solving fixed point $J_\mu$ from $J_\mu = T_\mu J_\mu$ is
+  equivalent solving
+  $$J_\mu =\argmin\limits_{J\in \R^{|\X|}} \sum_{x\in \mathcal{X}}|J(x) - (T_\mu J)(x)|^2 \xi(x).$$
+
+
+  % where $\xi$ is the steady-state probability vector of the Markov
+  % chain corresponding to the policy $\mu$.
+
+
+    \end{itemize}
+
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Bellman error}
+  \begin{itemize}
+  \item  Lost function:
+  \begin{align}\label{eq:bellmanloss}
+   || J-T_\mu J||_\xi \equiv   \sum_{x\in \mathcal{X}}|J(x) - \big(g_\mu(x)+ \beta (P_\mu J)(x)\big)|^2 \xi(x).
+  \end{align}
+  is known as the (weighted) Bellman error.
+\item Most visited states should be weighted more. So $\xi$ is often
+  chosen to be the stationary distribution of the DTMC with transition matrix $P_\mu$.
+
+
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Policy evaluation}
+\begin{itemize}
+\item By setting the gradient of (\ref{eq:bellmanloss}) (w.r.t $J$) to
+  0, we get
+
+\begin{equation}\label{td}
+D(J - (g_\mu +\beta P_\mu J)) = 0,
+\end{equation}
+where $D$ is the diagonal matrix with $\xi$ along the diagonal.
+
+\item Note that equation (\ref{td}) is equivalent to the fixed point problem
+\begin{equation*}
+J = J - \gamma \red{D\Big[(I - \beta P_\mu)J -  g_\mu\Big]}
+\end{equation*}
+
+
+\item  $\red{D\Big[(I - \beta P_\mu)J -  g_\mu\Big]} = \E_\xi \Big[ J(x) - \beta J(x') - g(x, x') \Big]$
+\end{itemize}
+
+
+\end{frame}
+
+
+
+
+\begin{frame}{Tabular TD(0) learning}
+\begin{itemize}
+  \item Step 1 (Initialization): arbitrary initialize $J^0$, choose initial state $x_0$
+  \item Step 2 (Simulation): simulate one step starting from $x_k$ with decision given by $\mu$.
+
+Observe next state $x_{k+1}$ and one-step cost $g_k$.
+  \item Step 3 (Update): \begin{equation*}
+  \begin{cases}
+  J^{k+1}(x_k) =  J^k(x_k) - \gamma_k \Big [ J^k(x_k) - \big(g_k + \beta J^k(x_{k+1})\big)\Big],\\
+  J^{k+1}(y) = J^{k}(y),~~\text{for }y\neq x_k
+  \end{cases}
+  \end{equation*}
+  \item Step 4: $k = k+1$ , move to Step 2.
+\end{itemize}
+
+
+
+\end{frame}
+
+
+
+
+\begin{frame}{Tabular TD(0) learning}
+\begin{theorem}[Sutton, 1988]
+Assume a Markov chain associate with the policy $\mu$ is finite, irreducible and aperiodic.
+
+ Given bounded costs $|g(x, a, x')|<G$ and learning rate s.t.
+ $\sum\limits_{k=0}^\infty \gamma_k = \infty$, $\sum\limits_{k=0}^\infty \gamma_k^2 < \infty$
+
+
+$$
+\lim\limits_{k\rightarrow \infty} J^k = J_\mu~~\text{a.s.}
+$$
+
+
+
+\end{theorem}
+
+\noindent The $\ell$-step Bellman equation:
+\begin{align*}
+J_\mu(x)= \E\Big[\sum_{k=0}^\ell \beta^k g(x_k, \mu(x), x_{k+1}) + \beta^{\ell+1} J_{\mu}(x_{\ell+1})\Big].
+\end{align*}
+When $\ell\sim \text{Geometric}(\lambda)$, $0\le \lambda \le 1$, the
+corresponding algorithm is TD($\lambda$) learning algorithm.
+
+\end{frame}
+
+
+\begin{frame}{$Q$-factor}
+
+  \begin{itemize}
+      \item Optimal $Q$-factor is  defined as
+        \begin{align*}
+          Q^*(x, a) & = \sum\limits_{x' \in \X} P(x, a, x')\Big[g(x, a, x')+\beta J^*(x') \Big] \\
+                    & = \E[g(x,a, x') + \beta  J^*(x')] \\
+                    & \approx \frac{1}{K} \sum_{i=1}^K \Big(g(x, a, x'_i)+ \beta J^*(x'_i)\Big)
+        \end{align*}
+
+      \item Optimal policy inference
+        \begin{align}\label{eq:Qmu}
+          \mu^*(x) = \argmin_{a\in \mathcal{A}(x)} Q^*(x,a).
+        \end{align}
+      \item When $Q^*$ is too big for  memory or
+        (\ref{eq:Qmu}) is too difficult, a
+        low-dimensional representation of $Q^*$ is needed.
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Bellman equation for $Q$-factor}
+  \begin{itemize}
+  \item Define
+    \begin{equation*}
+(T Q)(x, a) = \sum\limits_{y \in \X} P(x, a, y)\Big[g(x, a, y)+\beta \min\limits_{v\in A(y)} Q(y, v) \Big]
+\end{equation*}
+\item $Q^*$ is the unique fixed point to equation
+  \begin{align*}
+    Q = T Q.
+  \end{align*}
+
+\item If $P$ and $g$ are known, value iteration (VI)
+  \begin{align*}
+    Q_{k+1} = TQ_k
+  \end{align*}
+   converges to $Q^*$ from any starting $Q_0.$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{ Q-learning as stochastic VI}
+
+\begin{itemize}
+  \item We can generate infinitely long sequence of triples $\{x_k, a_k, g_k\}$, s.t. each state-action pair $(x,a)$ appears infinitely often.
+
+  
+
+  \item the Q-factor of $(x_k, a_k)$ pair is updated:
+  \begin{equation*}
+  \begin{cases}
+ Q_{k+1}(x_k, a_k) =(1- \gamma_k)Q_{k}(x_k, a_k)  + \gamma_k \Big(
+  g_k + \beta \min\limits_{v}Q_k(x'_{k+1}, v)\Big)\\
+   Q_{k+1}(x, a) = Q_{k}(x, a),~~\text{if }(x, a)\neq (x_k, a_k)
+  \end{cases}
+  \end{equation*}
+
+
+  \item Note that $g_k + \beta \min\limits_{v}Q_k(x'_{k+1}, v)$ is a single sample approximation of the expected value $(TQ)(x_k, a_k).$
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{ Q-learning}
+\begin{theorem}[Watkins and Dayan,  1992]
+
+
+ Given
+
+ \begin{itemize}
+ \item A sequence where each state-action pair appears infinitely often
+   \item bounded costs $|g(x, a, y)|<G$
+   \item learning rate s.t.  $0<\gamma_k<1$, $\sum\limits_{k=0}^\infty \gamma_k = \infty$, $\sum\limits_{k=0}^\infty \gamma_k^2 < \infty$
+ \end{itemize}
+
+Q-learning algorithm converges:
+$$
+\lim\limits_{k\rightarrow \infty} Q_k(x, a) = Q^*~~\text{a.s.}
+$$
+
+
+\end{theorem}
+
+
+\end{frame}
+
+
+
+\begin{frame}{Policy iteration for Q-factors}
+\begin{itemize}
+  \item Policy evaluation: given current policy $\mu^k$ find the fixed point $Q_{\mu^k}$ of
+  $$
+  Q(x, a) = \sum\limits_{y\in \X} P(x, a, y)[g(x, a, y)+\beta Q(y, \mu^k(y))]
+  $$
+  \item Policy improvement: $\mu^{k+1}(x) = \arg\min\limits_{a\in \A(x)} Q_{\mu^k} (x, a)$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{optimistic PI for Q-factors: SARSA}
+\begin{itemize}
+  \item Step 1 (Initialization): arbitrary initialize $Q^0$, choose initial state $x_0$, initial decision $a_0.$
+  \item Step 2 (Simulation): simulate one step starting from $x_k$ with decision given by $a_k$.
+
+Observe next state $x_{k+1}$ and cost $g_k$.
+
+\item Step 3 (Evaluation\&improvement) $a_{k+1} = \begin{cases}\argmin\limits_{a\in \A} Q^k(x_{k+1},a) ~~\text{w.p. }1-\epsilon\\ \text{other action} ~~\text{w.p. }\epsilon \end{cases}$
+  \item Step 4 (Update): \begin{equation*}
+  \begin{cases}
+  Q^{k+1}(x_k, a_k) =  (1-\gamma_k) Q^k(x_{k}, a_k) + \gamma_k \Big [g_k+ \beta Q^k(x_{k+1}, a_{k+1}) \Big],\\
+  Q^{k+1}(y, v) = Q^{k}(y, v),~~\text{for }(y, v)\neq (x_k, a_k)
+  \end{cases}
+  \end{equation*}
+  \item Step 5: $k = k+1$ , move to Step 2. \quad SARSA: \red{s}tate, \red{a}ction, \red{r}eward, \red{s}tate, \red{a}ction.
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}{References}
+\begin{itemize}
+  \item Sutton, R. S. (1988). Learning to predict by the method of temporal differences. Machine Learning, 3:9--44.
+  \item Watkins, C. J. C. H., Dayan, P. (1992). Q-learning. Machine Learning, 8:279--292.
+  \item Bertsekas, D. P. (2012). Dynamic Programming and Optimal Control, Volume 2: Approximate Dynamic
+Programming, 4th edition. Athena Scientific, Belmont.
+
+
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Properties}
+\begin{theorem}[Monotonicity]
+For any functions $J, J':\X\rightarrow \R$, s.t. for all $x\in \X$,
+\begin{center}
+$J(x)\leq J'(x)$,
+\end{center}
+and any stationary policy $\mu:X\rightarrow \A$, we have
+
+\begin{center}
+$(TJ)(x)\leq (T J')(x)\quad\quad(T_\mu J)(x)\leq (T_\mu J')(x),$ for each $x\in \X.$
+\end{center}
+\end{theorem}
+
+\begin{theorem}[Constant Shift]
+For every $k$, function $J:\X\rightarrow \R$, stationary policy $\mu$, $r\in \R$, and $x\in \X$,
+\begin{center}
+$(T(J+re))(x) = (TJ)(x) +\beta r,$
+\end{center}
+\begin{center}
+$(T_\mu(J+re))(x) = (T_\mu J)(x) +\beta r.$
+\end{center}
+\end{theorem}
+
+
+\end{frame}
+
+
+
+\begin{frame}{Contraction mapping}
+
+\begin{itemize}
+\item For any $J, J':\X\rightarrow \R$, there holds
+\begin{center}
+  $\max\limits_{x\in X} |(T J)(x) - (T^k J')(x) |\leq \beta \max\limits_{x\in X}|J(x) - J'(x)|.$
+\end{center}
+
+\item Proof. Let $c = \max\limits_{x\in X}|J(x) - J'(x)| $, then
+
+ $J(x) - c\leq J'(x)\leq J(x)+c$ for each $x\in \X.$
+
+    By Monotonicity Lemma:
+    $T(J-ce)(x)\leq T(J')(x)\leq T(J+ce)(x)$
+
+    By Constant shift Lemma:
+    $(TJ)(x) - \beta c\leq T(J')(x)\leq (TJ)(x) + \beta c$
+\end{itemize}
+\end{frame}
+
+
+\end{document} 

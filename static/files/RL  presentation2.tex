@@ -1,0 +1,818 @@
+\documentclass{beamer}
+\usetheme{CambridgeUS}
+\usefonttheme{professionalfonts}
+\usepackage{times}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{verbatim}
+\usetikzlibrary{arrows,shapes}
+\usepackage{graphicx}
+\usepackage{blkarray}
+%\usepackage{subcaption}
+\usepackage[]{algorithm2e}
+%\usepackage{cite}
+\usepackage[utf8]{inputenc}
+\title{Multi-step learning and Value-based approximation methods}
+\author{Mark Gluzman}
+\institute{iDDA, CUHK (Shenzhen)}
+\date{January 28, 2019}
+%\graphicspath{ {C:/Users/mg2289/Desktop/tex/presentation RLPN} }
+%\logo{\includegraphics[scale=0.05]{Cornell}}
+%\bibliography{replicator}
+\usepackage[scaled=0.85]{beramono}
+\usepackage{setspace}
+\usepackage{color}
+\usepackage[]{algorithm2e}
+\usepackage{wrapfig}
+\usepackage{lipsum}  % generates filler text
+%\usepackage{blkarray}
+\usepackage{amsmath,amsthm,amssymb,epsfig,natbib}
+ \usepackage{tikz}
+ \usepackage{centernot}
+ \usetikzlibrary{positioning}
+ \usetikzlibrary{calc,fit}
+ \usepgflibrary{shapes.geometric}
+ \usepackage{tkz-graph}
+ \usetikzlibrary{arrows}
+
+\usefonttheme{professionalfonts}
+\usepackage{times}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{verbatim}
+\usetikzlibrary{arrows,shapes}
+
+
+\newtheorem{assumption}{Assumption}
+\newtheorem{remark}{Remark}
+
+\usetikzlibrary{automata,positioning}
+\setbeamerfont{frametitle}{size=\normalsize,series=\bfseries}
+
+%\usepackage[backend=biber, style=chem-angew, safeinputenc]{biblatex}
+%\addbibresource{replicator.bib}
+\makeatletter
+\def\blx@maxline{77}
+\makeatother
+\newcommand{\Prob}{\mathbb{P}}
+\def\R{{\mathbb R}}
+\def\X{{\mathcal X}}
+\def\U{{\mathcal U}}
+\def\W{{\mathcal W}}
+\def\Y{{\mathcal Y}}
+\def\E{{\mathbb E}}
+\def\I{{\mathbb I}}
+\def\A{{\mathcal A}}
+\def\sign{{\rm sign}}
+\def\G{{\mathcal G}}
+\def\M{{\mathcal M}}
+\def\P{{\mathcal P}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+%\singlespacing
+\setstretch{1.5}
+\newcommand*\colvec[3][]{
+    \begin{pmatrix}\ifx\relax#1\relax\else#1\\\fi#2\\#3\end{pmatrix}
+}
+
+\newcommand{\place}[2]{%
+  \overset{\substack{#1\\\smile}}{#2}%
+}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>
+    \frametitle{Outline for section \thesection}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+% \usepackage{setspace}% http://ctan.org/pkg/setspace
+% \let\oldframetitle\frametitle% Store \frametitle in \oldframetitle
+% \renewcommand{\frametitle}[1]{%
+%   \oldframetitle{#1}\setstretch{2}}
+
+
+\setlength{\parindent}{2em}
+%\addbibresource{replicator.bib}
+
+% \setbeamertemplate{frametitle}{
+%     \vspace{2cm}\\
+%     \insertframetitle
+% }
+
+
+\begin{document}
+\footnotesize
+
+
+
+\maketitle
+
+
+
+
+\begin{frame}{Markov Decision Process}
+
+
+
+ MDP is defined as  $\M = (\X, \A, P, g)$, where
+\begin{itemize}
+\item  $\mathcal{X}$ is a finite state space,  $\mathcal{A} = \bigcup\limits_{x\in\X} \A(x)$ is a finite action space.
+
+
+ \item  $P$ is a state transition probability kernel.
+
+
+ The system state at the next decision epoch is determined by $$\Prob\Big\{x_{k+1} = y~\Big| x_k = x, a_k=a\Big\} = P(x, a,y)$$
+for each $x_k\in \mathcal{X}$, $a_k\in A(x_k)\subset\mathcal{A}.$
+
+ \item Given $(x_k; a_k)$, a new (random) state $x_{k+1}$ is observed and a (one-step) cost
+$g(x_k; a_k; x_{k+1})$ is incurred.
+
+
+ \item The value function of policy $\mu:\X\rightarrow \A$ is
+ \begin{center}
+  $
+  J_\mu(x) = \E\Big[\sum\limits_{k=0}^\infty \beta^k g\big(x_k, \mu(x_k), x_{k+1}\big)| x_0 = x\Big],
+$
+where $0<\beta<1$. \end{center}
+
+
+
+\end{itemize}
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+\begin{frame}{Bellman operator}
+\begin{itemize}
+\item For  $J:\X\rightarrow \R$ and stationary policy $\mu$
+\begin{align*}
+(T_\mu J)(x) &= \E_{y\sim P(\cdot|x, \mu(x))}\Big[ g(x, \mu(x), y) +\beta J(j) \Big]\\
+&=\sum\limits_{y\in \X}P(x, \mu(x), y)\Big[ g(x, \mu(x), y) +\beta J(y) \Big], ~~x\in \X
+\end{align*}
+
+  \item For  $J:\X\rightarrow \R$ consider
+\begin{align*}
+(TJ)(x) &= \min\limits_{a\in \A(x)} \E_{y\sim P(\cdot|x, a)}\Big[ g(x, a,y) +\beta J(y) \Big]\\
+&=\min\limits_{a\in \A(x)} \sum\limits_{y\in \X}P(x, a, y)\Big[ g(x, a, y) +\beta J(y) \Big],~~x\in \X
+\end{align*}
+
+
+
+
+
+% \item
+% 
+% Operator $T_\mu$ in a vector form:
+%    \begin{equation*}
+%   T_\mu \overline J = g_\mu +\beta P_\mu \overline J,
+%   \end{equation*}
+%   where $\overline J$ is a $\X$-vector s.t. $J(i) = e_i\cdot \overline J$; $e_i = (0,\dots,0, \place{ith}{1},0,\dots,0).$
+  
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Bellman equation}
+
+\begin{theorem}[Bertsekas, Proposition 1.2.4]
+(a) For every stationary policy $\mu$, the associated value function satisfies for all $i\in \X$:
+
+
+\begin{equation*}\label{BE1}
+J_\mu(x) = \E_{y\sim P(\cdot|x, \mu(x))} \Big[g(x, \mu(x), y) +\beta J_\mu(y) \Big] ~~\text{ or }~~J_{\mu} = T_\mu J_\mu
+\end{equation*}
+
+(b) $J_\mu$ is the unique solution of equation (\ref{BE1}).
+\end{theorem}
+
+
+\begin{center}
+The main purpose of this talk is to find an efficient way to estimate $J_\mu$.
+\end{center}
+
+\end{frame}
+
+
+
+\begin{frame}{Policy evaluation: Dynamic programming ($P_\mu$, $g_{\mu}$ are known.)}
+
+
+   
+  A fixed point problem $J_\mu = T_\mu J_\mu$ is equivalent to linear system of equations 
+     \begin{equation*}
+  J_\mu = g_\mu +\beta P_\mu J_\mu,
+    \end{equation*}
+where $g_\mu$ is a $\X$-vector with entries $g_\mu(x) = \sum\limits_{y\in \X}P(x, \mu(x), y)g(x,  \mu(x), y)$ and
+ $P_\mu$ is an $\X \times\X$
+matrix with entries $P_\mu(x, y) = P(x, \mu(x), y)$.
+
+\end{frame}
+
+\begin{frame}{Monte-Carlo Simulation: $P_\mu$, $g_{\mu}$ are unknown }
+\begin{itemize}
+
+  \item Let $c_m(x_0) = g(x_0, x_1)+\beta g(x_1, x_2)...+\beta^{N}g(x_{N}, x_{N+1})$
+   be the cumulative cost of the $m$th episode, s.t. $x_{N+1}$ is a terminal state or $\frac{\beta^N}{1-\beta} \max\limits_{x,y\in \X} g(x, y)\approx 0.$  
+  \item For all states $x\in \X$ and for all $m$ we have
+  \begin{center}
+  $
+  J_\mu(x) = \E[c_m(x)]
+  $
+  \end{center}
+  thus we can estimate $J_\mu(x)$ forming a sample mean:
+  \begin{equation}\label{sum}
+  J^K(x) \approx \frac{1}{K} \sum\limits_{m=1}^K c_m(x)
+  \end{equation}
+  
+  \item Equation (\ref{sum}) can be iteratively calculated
+  
+   \begin{center}
+   $J^{m}(x) = J^{m-1}(x)+\gamma_m\Big(c_m(x) - J^{m-1}(x)\Big),~~~m=1,..,K$ 
+   \end{center}
+   
+    where $J^0(x) = 0$ and $\gamma_m = \frac{1}{m}.$
+\end{itemize}
+  
+  
+  
+ 
+
+
+
+
+
+\end{frame}
+
+
+
+\begin{frame}{TD(0) learning}
+\begin{itemize}
+
+\item Bellman equation
+
+\begin{center}
+$
+J_\mu(x) = \E\Big[g(x, y) +\beta J_\mu (y)\Big]
+$
+\end{center}
+
+\item Assume that we have an episode $\{x_0, x_1,...,x_N\}$ and $k_m$ is a $m$th time when the state $x$ is visited.
+
+\begin{center}
+$
+J_\mu(x) \approx \frac{1}{K} \sum\limits_{m=1}^K \Big[g(x_{k_m}, x_{k_m+1}) +\beta J_\mu (x_{k_m+1})\Big]
+$
+\end{center}
+
+    \item Update step for TD(0) learning
+    $$
+    \begin{cases}
+  J^k(x) = J^{k-1}(x_k) +\gamma_m\Big(g(x_k, x_{k+1})+\beta J^{k-1}(x_{k+1}) - J^{k-1}(x_k)  \Big), ~~~\text{if }x=x_k\\
+  J^k(x) = J^{k-1}(x_k), ~~~\text{if }x\neq x_k
+ \end{cases}
+ $$
+
+
+
+
+
+
+
+
+
+\end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}{N-step TD learning}
+\begin{itemize}
+
+\item N-step Bellman operator:  
+\begin{center}
+$
+(T^N_\mu J)(x_k) = \E\Big[\sum\limits_{m=0}^N \beta^m g(x_{k+m}, x_{k+m+1}) +\beta^{N+1} J(x_{k+N+1})\Big]
+$
+\end{center}
+\item N-step Bellman equation:
+\begin{center}
+$
+(T^N_\mu J)(x) = J(x), ~~~\text{ for each }x\in \X
+$
+\end{center}
+
+      
+    \item After  $k+N$ steps 
+    \begin{center}
+       $J^{k+N}_\mu(x_{k}) \approx   \red{g_{k}+\beta g_{k+1}+...+\beta^{N} g_{k+N}} + \blue{\beta^{N+1} J^{k+N-1}_\mu(x_{k+N+1})}$
+    \end{center}
+
+    \item Update step for N-step TD learning
+    $$
+  \begin{cases}
+  J^{k+N+1}_\mu(x_k) = J^{k+N}_\mu(x_k) - \gamma_k \Big[J^{k+N}_\mu(x_k) - \red{\sum\limits_{n=0}^{N}\beta^{n} g_{k+n}} -\blue{\beta^N J^{k+N}_\mu(x_{k+N+1})}\Big]\\
+  J^{k+N+1}_\mu(y) = J^{k+N}_\mu(y), ~~y\neq x_k
+  \end{cases}
+ $$
+  
+
+
+
+
+
+
+
+
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{$\lambda$-weighted multistep Bellman equation} 
+
+
+\begin{itemize}
+  \item Consider $N\sim$~Geometric$(\lambda)$, $0\leq \lambda < 1$.
+
+  Define an operator:
+
+  \begin{equation*}
+  T_\mu^{(\lambda)} = (1-\lambda)\sum\limits_{n=0}^\infty \lambda^n T_\mu^{n+1}
+  \end{equation*}
+\item The $\lambda-$weighted multistep Bellman equation:
+
+
+ 
+  
+  $$
+  J_\mu(x_k) = (1-\lambda) \E\Big[ \sum\limits_{n=0}^\infty \lambda^n \Big( \sum\limits_{m=0}^{n} \beta^m g(x_{k+m}, x_{k+m+1})+\beta^{n+1} J_\mu (x_{k+n+1})\Big) \Big]
+  $$
+ 
+ 
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{TD($\lambda$) learning}
+
+
+\begin{align*}
+J_\mu(x_k) &= (1-\lambda) \E\Big[ \sum\limits_{n=0}^\infty \lambda^n \Big( \sum\limits_{m=0}^{n} \beta^m g(x_{k+m}, x_{k+m+1})+\beta^{n+1} J_\mu (x_{k+n+1})\Big) \Big]\\
+&=\E\Big[(1-\lambda) \sum\limits_{m=0}^{\infty} \beta^m g(x_{k+m}, x_{k+m+1})\sum\limits_{n=m}^\infty\lambda^n+\sum\limits_{n=0}^\infty\beta^{n+1} J_\mu (x_{k+n+1})(\lambda^n - \lambda^{n+1}) \Big]\\
+&=\E\Big[\sum\limits_{m=0}^{\infty} \beta^{m}\lambda^{m}\Big( g(x_{k+m}, x_{k+m+1})+ \beta\lambda J_\mu (x_{k+m+1}) - J_\mu(x_{k+m})\Big) \Big]+J_\mu(x_k)\\
+&=\E\Big[\sum\limits_{m=0}^{\infty} \lambda^{m}\beta^{m}d_{m+k}  \Big]+J_\mu(x_k)
+\end{align*}
+
+Temporal Difference:
+$
+d_m  = g(x_m, x_{m+1}) +\beta\lambda J_\mu({x_{m+1}}) - J_\mu(x_m)
+$
+\end{frame}
+
+
+
+
+
+
+
+\begin{frame}{TD($\lambda$) learning}
+
+\begin{itemize}
+  \item $\lambda$-weighted Bellman equation: $
+J_\mu(x_k) =\E\Big[J_\mu(x_k)+\sum\limits_{m=0}^{\infty} (\lambda\beta)^{m}d_{m+k}  \Big]
+$
+
+\item Online iterations:
+$$
+J(x_k) :=J(x_k) +\gamma\Big[J(x_k)+\sum\limits_{m=0}^{\infty} (\lambda\beta)^{m}d_{m+k} - J(x_k)\Big]=J(x_k) +\gamma\sum\limits_{m=0}^{\infty} (\lambda\beta)^{m}d_{m+k}
+$$
+
+\item Assume we have a single infinitely long trajectory $(x_0, g_0, x_1, g_1, x_2, ...)$. 
+
+\item  Since we cannot afford to wait until the end of the trajectory we need an on-line version of the algorithm.
+
+  
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{TD($\lambda$) learning}
+
+ Let $J^0$ is an initial guess.   The first two updated are:
+\begin{itemize}
+ \item  Following the transition $(x_0, x_1):$
+
+  $J^1(x_0) = J^0(x_0)+\gamma d_0$
+
+
+ \item  Following the transition $(x_1, x_2):$
+
+  $
+  \begin{cases}
+  J^2(x_0) = J^1(x_0)+\gamma \lambda \beta  d_1=  J^0(x_0)+\gamma d_0+\gamma \lambda \beta  d_1\\
+  J^2(x_1) = J^1(x_1)+\gamma  d_1 = J^0(x_1)+\gamma  d_1
+  \end{cases}
+  $
+  
+\red{If $x_0 = x_1$} there are three variants of the TD($\lambda$) algorithm:
+
+
+\item The restart variant:
+$J^2(x_0) = J^0(x_0) +\gamma d_0+\gamma d_1.$
+  \item The first-visit variant:
+  $J^2(x_0) =  J^0(x_0)+\gamma d_0+\gamma \lambda \beta  d_1$
+
+\item The every-visit variant:
+$J^2(x_0) = J^0(x_0)+\gamma d_0+\gamma \lambda \beta  d_1 +\gamma d_1.$
+
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{TD($\lambda$) learning}
+
+ The update equation for TD($\lambda$) becomes:
+ $$
+ J^{k+1}(x) = J^{k}(x)+\gamma_k(x)z_k(x)d_k(x), \text{ for each }x\in \X
+ $$
+
+where $z_{-1}=0$ and
+
+\begin{itemize}
+\item The restart variant:
+$z_k(x) = \begin{cases}1,  ~~\text{if }x_k= x\\
+\beta\lambda z_{k-1}(x), ~~\text{if }x_k\neq x
+ \end{cases}$
+  \item The first-visit variant:
+  $z_k(x) = \begin{cases}1, \text{ if } x=x_k\text{ and } x_k \text{ is visited first time}\\
+  \beta\lambda z_{k-1}(x), ~\text{otherwise}
+  \end{cases}$
+
+\item The every-visit variant:
+$z_k(x) = \begin{cases}\beta\lambda z_{k-1}(x)+1,  ~~\text{if }x_k= x\\
+\beta\lambda z_{k-1}(x), ~~\text{if }x_k\neq x
+ \end{cases}$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Approximate Dynamic Programming}
+
+Approximate dynamic programming (neuro-dynamic programming, reinforcement learning):
+
+
+
+  \red{A principle aim is to address problems with very large number of states in $\X.$}
+ \begin{itemize}
+   \item  $|\X|$-dimensional inner product are time-consuming.
+   \item It may impossible to store $|\X|$-vector in a computer memory.
+
+ \end{itemize}
+
+ 
+
+
+\end{frame}
+
+
+\begin{frame}{Approximation is value space}
+ $\tilde J(x, r)$ is a function of some chosen form and $r = (r_1, ..., r_s)$ is a parameter vector of relatively small dimension $s$.
+
+Examples:
+\begin{itemize}
+  \item Linear form:
+  
+  $$
+\tilde J(x, r) = r_1\phi_1(x)+...+ r_s\phi_s(x)=\sum\limits_{k=1}^s r_k \phi_k(x),
+  $$
+  
+  where $\phi_k:\X\rightarrow \R, ~~k=1,...,s$ are  known as \blue{feature functions}.
+  \item Feedforward neural network with a single hidden layer with $K$ neurons:
+  \begin{center}
+  $
+  \tilde J(x, r) = \sum\limits_{k=1}^K r(k)\sigma\Big( \sum\limits_{l=1}^L r(k, l)v_l(x) \Big),
+  $
+  \end{center}
+  where state $x$ is encoded as a $L$ -dimensional vector $v(x)$, $\sigma(\cdot)$ is an activation function.
+\end{itemize}
+
+
+\end{frame}
+
+
+
+
+\begin{frame}{Linear Approximation}
+
+\begin{itemize}
+\item Given a stationary policy $\mu$ we want to estimate
+\begin{center}
+$J_\mu(x) = \E\Big[\sum\limits_{k=0}^\infty \beta^k g(x_k, \mu(x_k), x_{k+1})| x_0 = x \Big]$
+\end{center}
+
+
+
+
+\item We approximate $J_\mu(x)$ with a linear architecture 
+\begin{center}
+$
+\tilde J(x, r) = \sum\limits_{k=1}^s r_k \phi_k(x) = \phi(x)^T r,~~x\in \X
+  $,
+ \end{center} 
+  where $\phi(x)$ is an $s$-dimensional feature vector.
+
+\item $$\tilde J_r = \left(
+                      \begin{array}{c}
+                        \phi(x_1)^T r \\
+                        \vdots \\
+                        \phi(x_{|X|})^T r \\
+                      \end{array}
+                    \right)
+=\Phi r,$$ where $\Phi$ is $|\X|\times s$ matrix that has as rows the feature vectors $\phi(x)^T$.
+
+    \end{itemize}
+
+\end{frame}
+
+
+
+
+\begin{frame}{The Projected  Equation}
+
+\begin{itemize}
+
+
+
+\item We want to approximate $J_\mu$ within space $S = \{\Phi r~|~r\in \R^s\}$.
+
+
+ 
+ 
+  \item The goal is to find $\tilde J^*$ w.r.t.  $\xi-$weighted norm:
+  
+\begin{center}
+  $\tilde J^* = \argmin\limits_{\tilde J\in S} \sum\limits_{x\in \X} |J_\mu(x)-\tilde J(x, r)|^2\xi(x) =\argmin\limits_{\tilde J\in S} ||J_\mu-\tilde J_r||_\xi^2
+  $
+\end{center}
+  
+  \item The problem is equivalent to finding $r^*\in \R^s$ s.t.
+  \begin{center}
+  $r^* = \argmin\limits_{r\in \R^s} ||J_\mu-\Phi r||_\xi^2
+  $
+\end{center}
+   \item Let $\Pi$ denote the projection operation onto $S$ w.r.t the $\xi-$weighted norm. 
+   
+   Then \begin{equation}\label{proj}\Pi J_\mu = \Phi r^*.\end{equation}
+ 
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{The Projected Bellman Equation}
+
+
+
+\begin{itemize}
+\item We assume \begin{equation}\label{appr} J_\mu\approx T_\mu(\Phi r^*) \end{equation}
+
+\item Combing (\ref{appr}) and (\ref{proj}) we get
+
+\begin{equation*}
+\Pi  T_\mu(\Phi r^*)\approx \Phi r^*
+\end{equation*}
+
+\item The Projected Bellman equation:
+\begin{equation}\label{pbe}
+\Pi  T_\mu(\Phi r)= \Phi r
+\end{equation}
+
+
+\item One can show that $\Pi T_\mu$ is a contraction operator w.r.t. $||\cdot||_\xi$ norm when $\xi$ is a stationary distribution of the DTMC with transition matrix $P_\mu.$
+\end{itemize}\end{frame}
+
+
+
+
+\begin{frame}{The Projected Bellman Equation}
+
+
+
+\begin{itemize}
+\item By the definition of projection the unique solution of (\ref{pbe}) satisfies
+$$
+r^* = \argmin_{r\in \R^s} || \Phi r - (g_\mu+\beta P_\mu\Phi r^* )||_\xi^2
+$$
+
+\item By setting to 0 the gradient w.r.t. $r$ we obtain 
+\begin{equation}\label{pbe2}
+\Phi^TD(\Phi r^* - (g_\mu+\beta P_\mu\Phi r^*))=0,
+\end{equation}
+where D is the diagonal matrix with $\xi$ along the diagonal.
+
+\item Equation (\ref{pbe2}) can be compactly written as
+\begin{center}
+$
+Cr^* = d,
+$
+\end{center}
+where $C = \Phi^TD(I-\beta P_\mu) \Phi$ and $d = \Phi^T Dg_\mu.$
+\end{itemize}\end{frame}
+
+
+\begin{frame}{TD(0) with linear approximation}
+
+
+
+\begin{itemize}
+\item 
+\begin{center}
+$Cr -d = \Phi^TD(I-\beta P_\mu)r -\Phi^T Dg_\mu = \E\Big[ \phi(x)\Big(\phi(x)^Tr - \beta\phi(y)^T r - g_\mu(x, y)\Big) \Big] $$
+$
+\end{center}
+
+
+\item Equation $Cr-d=0$ is equivalent to 
+$$
+r = r -\gamma (Cr-d) = r-\gamma\E\Big[ \phi(x)\Big(\phi(x)^Tr - \beta\phi(y)^T r - g(x, y)\Big) \Big]
+$$
+
+\item Given an episode $(x_0, g_0, x_1, g_1, ..., x_N, g_N)$, the  TD(0) iteration is
+
+$$
+r_{k+1} = r_k - \gamma_k\phi(x_k)\Big(\phi(x_k)^Tr_k - \beta\phi(x_{k+1})^T r_k - g_k\Big)  
+$$
+
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Convergence of TD(0) with linear approximation}
+
+\begin{theorem}[Tsitsiklis, Van Roy, 1997]
+Assume that 
+\begin{itemize}
+\item the Markov chain assosiated with policy $\mu$ is irreducible and aperiodic
+\item  the steady-state variance of transition costs is finite $\E[g^2(x_k, x_{k+!})]<\infty$.
+
+\item the learning rate is s.t.
+\begin{center}
+$\sum\limits_{k=0}^\infty \gamma_k = \infty$ and $\sum\limits_{k=0}^\infty \gamma_k^2< \infty$
+\end{center}
+
+Then 
+
+\item  TD(0) converges to $r^*$ that is a unique solution of $\Pi T(\Phi r) = \Phi r$.
+
+ \item $r^*$ satisfies
+ 
+\begin{center}
+ $
+ || \Phi r^* - J_\mu ||_\xi\leq \frac{1}{1-\beta} || \Pi J_\mu - J_\mu ||_\xi
+ $
+\end{center}
+ 
+ \end{itemize}
+\end{theorem}
+
+
+\end{frame}
+
+
+
+
+
+\begin{frame}{Finite Sample Analyses for TD(0) with Function Approximation}
+\begin{itemize}
+  \item \textbf{Gal Dalal et. al., 2017} found convergence rate under assumption that one can generate iid samples from a steady-state distribution, using recently developed stochastic approximation
+techniques.
+  \item  \textbf{Bhandari,  Russo,  Singal, 2018} found convergence rate for projected TD(0) algorithm ($r_k$ is assumed to be $||r_k||<R$) using information theoretic techniques.
+  \item \textbf{Lei Ying, 2018}  found convergence rate for TD(0) algorithm  using Stein's Method.
+\end{itemize}
+
+
+\end{frame}
+
+
+
+\begin{frame}{LSTD(0)}
+
+
+
+\begin{itemize}
+\item $C = \E\Big[\phi(x)\Big(\phi(x) - \beta \phi(y) \Big)^T\Big]$ and $d = \E[ \phi(x)g(x, y)]$
+
+
+\item Based on simulation
+
+\begin{center}
+$C_N =\frac{1}{N+1}\sum\limits_{k=0}^N\phi(x_k)\Big(\phi(x_k) - \beta \phi(x_{k+1}) \Big)^T $ and  $d_N = \frac{1}{N+1}\sum\limits_{k=0}^N \phi(x_k)g(x_k, x_{k+1})$
+\end{center}
+
+\item LSTD(0) algorithm: simulate $N$ time-steps according to a policy $\mu$
+
+\begin{equation*}
+\begin{cases}
+C_{k+1} = C_k - \frac{1}{k}\Big(\phi(x_k)\Big(\phi(x_k) - \beta \phi(x_{k+1}) \Big)^T -C_k\Big )\\
+
+d_{k+1} = d_k - \frac{1}{k}\Big( \phi(x_k)g(x_k, x_{k+1}) -d_k\Big)
+\end{cases}
+\end{equation*}
+
+After the end of simulation:
+\begin{center}
+$\tilde r =  C_{N}^{-1}d_N~~~~~J_\mu(x) \approx \phi^T(x)\tilde r$
+\end{center}
+\end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}{LSPE(0)}
+
+
+
+\begin{itemize}
+\item LSPE method is based on an idea of Projected Value Iteration
+\begin{equation}\label{eq1}
+\Phi r_{k+1} = \Pi T_\mu(\Phi r_k)
+\end{equation}
+
+\item Equation (\ref{eq1}) is equivalent to 
+$
+r_{k+1} = r_k - (\Phi^T D \Phi)^{-1} (Cr_k - d)
+$
+
+\item a simulation-based implementation:
+\begin{center}
+$
+r_{k+1} = r_k - G_k (C_kr_k - d_k)
+,$
+\end{center}
+where
+
+
+\begin{center}
+$\begin{cases}
+C_{k+1} = C_k - \frac{1}{k}\Big(\phi(x_k)\Big(\phi(x_k) - \beta \phi(x_{k+1}) \Big)^T -C_k\Big )\\
+d_{k+1} = d_k - \frac{1}{k}\Big( \phi(x_k)g(x_k, x_{k+1}) -d_k\Big)\\
+G_{k+1} = \Big(\frac{1}{k+1}\sum\limits_{t=0}^{k} \phi(x_t)\phi(x_t)^T\Big )^{-1} = G_k - \frac{G_k\phi(x_k) \phi^T(x_k)G_k}{1+\phi^T(x_k)G_k\phi(x_k)}
+\end{cases}$
+\end{center}
+
+
+
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Limitations}
+Limitations:
+\begin{itemize}
+  \item No guaranty that TD($\lambda$) with non-linear approximation will converge. Counterexample in Tsitsiklis, Van Roy, 1997.  
+  \item Policy improvement may not converge to the near-optimal value function approximation:
+  no guaranty that $\tilde J_\mu-$greedy policy is better than $\mu$. Policy oscillation-chattering often occurs (see, Bertsekas, Chapter 6.4.3).  
+  \end{itemize}
+
+
+\end{frame}
+
+
+\begin{frame}{References}
+
+\begin{itemize}
+  \item Tsitsiklis, Van Roy (1997) An Analysis of Temporal-Difference Learning
+with Function Approximation, IEEE Transactions on Automatic Control, 42 (5), pp 674--690
+
+\item Bertsekas, D. P. (2012). Dynamic Programming and Optimal Control, Volume 2:
+Approximate Dynamic Programming, 4th edition. Athena Scientific, Belmont.
+
+
+  \item Gal Dalal et. al. (2017) Finite Sample Analyses for TD(0) with Function Approximation, The Thirty-Second AAAI Conference
+on Artificial Intelligence.
+
+
+\item Bhandari et.al. (2018) A Finite Time Analysis of Temporal Difference Learning With Linear Function Approximation, https://arxiv.org/abs/1806.02450
+
+
+\item Lei Ying (2018) Stein's Method for Big-Data Systems: from Learning Queues to Q-learning, Mathematical Issues in Information Sciences.
+  \end{itemize}
+
+
+\end{frame}
+\end{document} 
