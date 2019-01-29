@@ -26,8 +26,11 @@ draw a comprehensive blueprint on modern (Deep) Reinforcement Learning.
 ### Courses and books
 
 There are a lot of resources and courses we can refer.
+
+- [Reinforcement learning](https://github.com/dalmia/David-Silver-Reinforcement-learning) at UCL by **David Silver**. Recommended for the first course (Videos and slides available, no HW).
+
 - CS 294-112 (2018Fall) [Deep Reinforcement Learning](http://rail.eecs.berkeley.edu/deeprlcourse/) at UC Berkeley
- 
+
 - [Spinning Up in Deep RL](https://spinningup.openai.com/en/latest/) by OpenAI
 
 - [Reinforcement Learning: An Introduction](http://incompleteideas.net/book/the-book.html) by the Awesome Richard S. Sutton, Second Edition, MIT Press, Cambridge, MA, 2018
