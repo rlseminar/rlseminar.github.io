@@ -83,6 +83,24 @@ and more…
 
 <img src="static/img/drl_survey3.png" alt="Concepts in artificial intelligence" width="500" align="middle">
 
+## Topics
+
+### Hierarchical Reinforcement Learning
+
+### Multi-agent Reinforcement Learning and Game Theory
+
+### Sample Efficiency, Complexity and Learning Theory
+
+### Safety in Reinforcement Learning
+
+### Distributed Scalable algorithms and systems
+
+### Distributional Reinforcement Learning
+
+### Maximum Entropy RL and Probability inference
+
+### Option Discovery
+
 ## Applications
 
 ### Healthcare
