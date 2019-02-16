@@ -16,7 +16,7 @@ nav: resource
 > This field of research has been able to solve a wide range of complex decision making tasks that were previously out of reach for a machine.
 > Thus, deep RL opens up many new applications in domains such as healthcare, robotics, smart grids, finance, and many more.
 
------- Vincent François-Lavet, Peter Henderson, Riashat Islam, Marc G. Bellemare and Joelle Pineau (2018), “[An Introduction to Deep Reinforcement Learning](https://arxiv.org/abs/1811.12560)”, in Foundations and Trends in Machine Learning: Vol. 11, No. 3-4. DOI: 10.1561/2200000071.
+------ Vincent François-Lavet, Peter Henderson, Riashat Islam, Marc G. Bellemare and Joelle Pineau (2018), “[An Introduction to Deep Reinforcement Learning](https://arxiv.org/abs/1811.12560)”, in Foundations and Trends in Machine Learning: Vol. 11, No. 3-4. DOI: 10.1561/2200000071. [pdf](static/files/intro-drl.pdf)
 
 Another recent survey [Deep Reinforcement Learning](https://arxiv.org/abs/1810.06339) by Yuxi Li Under review for Morgan & Claypool: Synthesis Lectures in Artificial Intelligence and Machine Learning
 draw a comprehensive blueprint on modern (Deep) Reinforcement Learning.
