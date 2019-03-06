@@ -1,4 +1,5 @@
 ---
+title: RL Seminar 2019 FALL
 layout: schedule
 semester: Fall
 year: 2019

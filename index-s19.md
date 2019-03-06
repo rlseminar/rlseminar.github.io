@@ -1,4 +1,5 @@
 ---
+title: RL Seminar 2019 SPR
 layout: schedule
 semester: Spring
 year: 2019
