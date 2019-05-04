@@ -1,0 +1,732 @@
+\documentclass[t,10pt]{beamer}
+
+%------------------------------%
+% Beamer Slide Themes
+%------------------------------%
+
+%\usetheme{default}
+%\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme{Berlin}
+%\usetheme{Boadilla}
+%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{Dresden}
+%\usetheme{Frankfurt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+%\usetheme{Madrid}
+\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+
+%------------------------------%
+% Beamer Color Themes
+%------------------------------%
+
+%\usecolortheme{albatross}
+%\usecolortheme{beaver}
+%\usecolortheme{beetle}
+%\usecolortheme{crane}
+%\usecolortheme{dolphin}
+%\usecolortheme{dove}
+%\usecolortheme{fly}
+%\usecolortheme{lily}
+%\usecolortheme{orchid}
+%\usecolortheme{rose}
+%\usecolortheme{seagull}
+%\usecolortheme{seahorse}
+\usecolortheme{whale}
+%\usecolortheme{wolverine}
+
+%\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
+%\setbeamertemplate{footline}[page number] % To replace the footer line in all slides with a simple slide count uncomment this line
+
+%\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+
+
+\usepackage{graphicx}
+\usepackage{amsthm, amsmath,color,mathrsfs}
+\usepackage{enumerate}
+\usepackage{booktabs}
+\newcommand{\R}{\mathbb{R}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\B}{\mathbb{B}}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\newcommand{\ha}{\frac{1}{2}}
+\newcommand{\E}{\mathbb{E}}
+
+%Probability Notations
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\J}{\mathcal{J}}
+
+\newcommand{\CC}{\mathcal{C}}
+\newcommand{\s}{\mathcal{S}}
+\newcommand{\K}{\mathcal{K}}
+\newcommand{\LL}{\mathcal{L}}
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\prob}{\mathbb{P}}
+
+% User specific theorem notations need to be combined into global command. 
+
+%\newtheorem{claim}{Claim}
+%\newtheorem{lemma}{Lemma}
+%\newtheorem{theorem}{Theorem}
+%\newtheorem*{theorem*}{Theorem}
+%\newtheorem{definition}{Definition}
+%\newtheorem{proposition}{Proposition}
+%\newtheorem{corollary}{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+
+%----------------------------------------------------------------------------------------------------%
+% Presentation Slides
+%----------------------------------------------------------------------------------------------------%
+\begin{document}
+
+%%------------------------------%
+%% Title & Table of Contents
+%%------------------------------%
+\title{Finite-Time Error Bounds For Linear Stochastic Approximation and TD Learning}
+\author{Chang Cao}
+\date{\today}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+
+
+\frametitle{ Main Statement}
+Derive the finite error bounds on the moments of the error of the linear stochastic approximation algorithm:
+\begin{align} \label{lsa}
+\Theta_{k+1} = \Theta_k + \epsilon(A(X_k) \Theta_k + b(X_k))
+\end{align} 
+\begin{enumerate}
+\item $\{X_k, k \geq 0\}$ is an underlying Markov chain
+\item $A(X_k)$ is a random matrix; $b(X_k)$ is a random vector; $\Theta_k$ is a random vector
+\item algorithm updates $\Theta_k$ using recursion (\ref{lsa})
+\item $\epsilon$ is a constant step size
+\end{enumerate}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+
+
+\frametitle{Outline}
+\begin{enumerate}
+\item Motivation: $TD(0)$
+\item Linear Stochastic Approximation
+\item Finite-Time Error Bounds
+\end{enumerate}
+
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+
+\frametitle{TD Learning: TD(0)}
+Setup:
+\begin{enumerate}
+\item MDP over a finite space $\mathcal{S} = \{1, \ldots, N\}$
+\item Fix a stationary policy $\mu$
+\item $\{Z_k\}$: the resulting Markov chain
+\item Value function 
+\begin{align}
+V(i): = \E\left[ \sum_{k=0}^\infty \alpha^k c(Z_k, \mu(Z_k), Z_{k+1}) \bigg| Z_0 = i \right]
+\end{align}
+where $c$ is one-step reward. 
+\item \red{Purpose: estimate the value function $V$ associated with $\mu$ by observing a trajectory $\{z_0, z_1, z_2, \ldots\}$}
+
+\end{enumerate}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+
+\frametitle{TD(0): Linear Approximation}
+\begin{enumerate}
+\item $V$ satisfies the Bellman equation: $V = T_\mu V$
+\begin{align} \label{bellman}
+V(i) = \E_j[c(i, \mu(i), j) + \alpha V(j)] = \E[c(i, \mu(i), j)] + \alpha \sum_j p_{ij} V(j)
+\end{align}
+denote $\overline{c}:=  (\E[c(1, \mu(i), j)], \ldots, \E[c(N, \mu(i), j)])^t$
+\item If the transition probabilities $p_{ij}$ are known, we can solve (\ref{bellman}) to get $V$. 
+\item still, when $N=|\mathcal{S}|$ is large, we approximate value function $V$ by a linear function of feature functions $\phi^t(i) = (\phi_1(i), \ldots \phi_d(i))$:
+\begin{align}
+V(i) \cong \sum_{k=1}^d \theta_k\phi_k(i) 
+\end{align}
+where $d$ is small compared to $N$. \red{Now: estimate weights $\theta_k$}
+\end{enumerate}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+
+\frametitle{TD Learning: Algorithm Design}
+\begin{enumerate}
+\item Goal: approximate $V$ by a member from $\mathcal{L} = \{ \phi^t \theta: \theta \in \R^d\}$ 
+\item Minimizing $L^2$-error
+\begin{align}
+\theta^*  = \argmin_{\theta \in \R^d} \|V- \phi^t \theta \|^2_\xi
+\end{align}
+where
+\begin{align}
+\|f \|^2_\xi:= \int_{\mathcal{S}} f^2(s) \xi(ds)
+\end{align}
+\item $\Pi_{\mathcal{L}}:=$ projection operator onto $\mathcal{L}$ with respect to $\| \|^2_\xi$; Solve the projected Bellman equation:
+\begin{align} \label{pbellman}
+\Pi_{\mathcal{L}} T_\mu(\phi^t \theta)  = \phi^t \theta
+\end{align}
+\item since $\theta^*$ should satisfy
+\begin{align}
+T_\mu(\phi^t \theta^*) \cong V
+\end{align}
+\end{enumerate}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+
+\frametitle{TD Learning: Algorithm Design}
+\begin{enumerate}
+\item one can show $\Pi_{\mathcal{L}} T_\mu$ is a contraction mapping when $\xi$ is chosen to be the stationary distribution of $\{Z_k\}$
+\item by solving (\ref{pbellman}), one can show it is equivalent to solving for $\theta^*$ so that
+\begin{align}
+\E[ \phi(i)(\phi(i)^t \theta^* - \alpha \phi(j)^t \theta^*- c(i,\mu(i),j)] = 0
+\end{align}
+\item observe that
+\begin{align}
+\theta^*- \epsilon\E[ \phi(i)(\phi(i)^t \theta^* - \alpha \phi(j)^t \theta^*- c(i,\mu(i),j)] = \theta^*
+\end{align}
+\item for an episode $\{Z_0, Z_1, \ldots\}$,
+\begin{align} \label{td0}
+\Theta_{k+1} = \Theta_k - \epsilon \phi(Z_k) \left(\phi^t(Z_k)\Theta_k-c(Z_k)-\alpha \phi^t(Z_{k+1}) \Theta_k \right)
+\end{align}
+where $\Theta_k$ is the estimate of $\theta^*$ at time $k$, $\epsilon \in (0,1)$ is a constant
+\end{enumerate}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{frame}
+\frametitle{TD(0): Convergence}
+\begin{theorem}[Tsitsiklis, Van Roy 1997]
+$\Theta_k$ converges to $\theta^*$ where 
+\begin{align} 
+\Pi_{\mathcal{L}} T_\mu(\phi^t \theta^*)  = \phi^t \theta^*
+\end{align}
+\end{theorem}
+
+Srikant and Ying 2019 provides finite-time error bounds on $\E\|\Theta_k-\theta^*\|^2$. Rewrite (\ref{td0}) as 
+\begin{align} 
+\Theta_{k+1} = \Theta_k + \epsilon(A(X_k) \Theta_k + b(X_k))
+\end{align} 
+where
+\begin{align}
+X_k := (Z_k, Z_{k+1}),\ \ A(X_k): = -\phi(Z_k)(\phi^t(Z_k)-\alpha \phi^t(Z_{k+1}))
+\end{align}
+and
+\begin{align}
+b(X_k): = c(Z_k)\phi(Z_k)-A(X_k) \theta^*,  \ \ \Theta \leftarrow \Theta- \theta^*
+\end{align}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Assumptions}
+From now on, we focus on linear stochastic recursion (\ref{lsa}). We use 2-norm for all vectors and induced 2-norm for all matrices.
+
+Assumptions:
+\begin{enumerate}
+\item $\{X_k\}$ is a Markov chain with state space $\mathcal{S}$.
+\begin{align}
+\lim_{k \to \infty} \E[A(X_k)] = \overline{A}, \ \ \ \lim_{k \to \infty} \E[b(X_k)] = 0
+\end{align}
+For mixing time $\tau_\epsilon$ of $\{X_k\}$ so that for all $i$ and $k \geq \tau_\epsilon$
+\begin{align}
+\| \E[b(X_k) \big|X_0 = i] \| \leq \epsilon, \|\E[A(X_k)\big| X_0 = i]-\overline{A}\| \leq \epsilon,
+\end{align}
+there exists $K \geq 1$ so that $\tau_\epsilon \leq K \log \frac{1}{\epsilon}$.
+\item Assumption 2: 
+\begin{align}
+b_{max} := \sup_{i \in \mathcal{S}} \|b(i)\| <\infty, \ \ A_{max}:= \sup_{i \in \mathcal{S}} \|A(i)\| \leq 1
+\end{align}
+\item Assumption 3: A is Hurwitz: all eigenvalues have strictly negative parts
+\end{enumerate}
+One can check that $TD$ algorithms satisfy assumptions 1-3. 
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Relevant Quantities}
+\begin{enumerate}
+\item Fact: there exists a symmetric matrix $P>0$ so that 
+\begin{align}
+\overline{A}^tP + P\overline{A}^t = -I
+\end{align}
+$\gamma_{max}:=$ largest eigenvalue of $P$; $\gamma_{min}:=$ smallest eigenvalue of $P$
+\item some universal constants
+\begin{align}
+\kappa_1= 62\gamma_{max}(1+b_{max}), \ \ \kappa_2 = 55\gamma_{max}(1+b_{max})^3, \ \ \tilde{\kappa_2} = 2(\kappa_2+\gamma_{max}b^2_{max})
+\end{align}
+\end{enumerate}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{frame}
+\frametitle{Theorem Statement}
+\begin{theorem}
+For $\epsilon$ so that $\kappa_1 \epsilon \tau_\epsilon + \epsilon \gamma_{max} \leq 0.05$ and all $k \geq \tau_\epsilon$,
+\begin{align}
+\E[ \|\Theta_k\|^2] \leq \frac{\gamma_{max}}{\gamma_{min}}\left(1-\frac{0.9\epsilon}{\gamma_{max}}\right)^{k-\gamma} (1.5\|\Theta_0\|+0.5 b_{max})^2 + \frac{\tilde{\kappa_2} \gamma_{max}}{0.9\gamma_{min}} \epsilon \tau
+\end{align}
+\end{theorem}
+\begin{enumerate}
+\item this is a finite error bound compared to the convergence result from Tsitsiklis and Van Roy 1997
+\item if $k \geq \tau_\epsilon + O(\frac{1}{\epsilon}\log\frac{1}{\epsilon})$, then $\E\|\Theta_k\|^2 = O(\epsilon \tau_\epsilon)$. 
+\item step size $\epsilon$ is fixed. Not difficult to extend analysis to algorithms with diminishing step sizes.
+\end{enumerate}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{frame}
+\frametitle{Theorem: Motivation}
+
+A standard way to study (\ref{lsa}) is to consider
+\begin{align}
+\E[W(\Theta_{k+1})-W(\Theta_{k}) \big| H_k]
+\end{align}
+where $H_k$ is some appropriate history. 
+
+Two questions:
+\begin{enumerate}
+\item what is a suitable Lyapunov function $W$?
+\item how to decide $H_k$?
+\end{enumerate}
+To answer the first question, we rely on intuitions from
+\begin{enumerate}
+\item Stein's Method
+\item Stability (equilibrium) of the associated ODE 
+\end{enumerate}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{frame}
+\frametitle{Stein's Method: Taylor Expansion of Operator}
+Stochastic Recursion:
+\begin{align} 
+\Theta_{k+1} = \Theta_k + \epsilon(A(X_k) \Theta_k + b(X_k))
+\end{align} 
+\begin{enumerate}
+\item think about the problem in steady state $+$ i.i.d. samples
+\item for any proper function $H$, 
+\begin{align}
+\E[H(\Theta_{k+1})- H(\Theta_k)] = 0
+\end{align}
+\item Taylor expansion:
+\begin{align}
+\E\left[\nabla^t H(\Theta_k)(\Theta_{k+1}-\Theta_k) + \frac{1}{2}(\Theta_{k+1}-\Theta_k)^t \nabla^2 H(\tilde{\Theta})(\Theta_{k+1}-\Theta_k) \right] = 0
+\end{align}
+for appropriate $\tilde{\Theta}$
+\end{enumerate}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{frame}
+\frametitle{Stein's Method: Poisson Equation}
+\begin{enumerate}
+\item set up the Poisson equation:
+\begin{align} \label{poisson}
+\nabla^t W(\Theta_k) \E[\Theta_{k+1}-\Theta_k \big| \Theta_k] = -\|\Theta_k\|^2, \text{ for each } \Theta_k
+\end{align}
+\item Combining Poisson equation and Taylor expansion
+\begin{align}
+\E[\|\Theta_k\|^2] = \E\left[ \frac{1}{2}(\Theta_{k+1}-\Theta_k)^t \nabla^2 W(\tilde{\Theta})(\Theta_{k+1}-\Theta_k)  \right]
+\end{align}
+\item one can use Hession bound to obtain bounds on $\E[\|\Theta_k\|^2]$
+\item We focus on Poisson equation (\ref{poisson}). By i.i.d. assumption, 
+\begin{align} \label{poisson1}
+\nabla^tW(\Theta_k)\overline{A}\Theta_k = -\|\Theta_k\|^2
+\end{align}
+\end{enumerate}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}
+\frametitle{Stein's Method:  Intuition}
+\begin{enumerate}
+\item Candidate solution to (\ref{poisson1}):
+\begin{align}
+W(\Theta_k) = \Theta_k^tP\Theta_k
+\end{align}
+for $P$ a symmetric positive definite matrix
+\item Solve $P$ so that 
+\begin{align}
+\overline{A}^tP + P\overline{A}^t = -I
+\end{align}
+The solution is unique due to the assumption that $\overline{A}$ is Hurwitz
+\item Stein's method (Poisson equation) removes the guesswork for a good Lyapunov function $W$ 
+\end{enumerate}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{frame}
+\frametitle{ODE}
+Stochastic Recursion:
+\begin{align} 
+\Theta_{k+1} = \Theta_k + \epsilon(A(X_k) \Theta_k + b(X_k))
+\end{align} 
+\begin{enumerate}
+\item the corresponding ODE:
+\begin{align} \label{ode}
+\dot {\theta} = \overline{A}\theta
+\end{align}
+\item Fact: $\Theta_k$ converges to the equilibrium point of ODE (\ref{ode})
+\item how one could derive bounds on $\|\theta_t\|^2$?
+\end{enumerate}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{frame}
+\frametitle{ODE: Same Lyapunov function}
+Consider 
+\begin{align} 
+W(\theta) = \theta^t P \theta
+\end{align} 
+\begin{enumerate}
+\item consider the time derivative of $W(\theta)$
+\begin{align} 
+\frac{dW}{dt} = \theta^t\left(\overline{A}^tP + P\overline{A}^t\right) \theta = -\|\theta\|^2
+\end{align}
+\item $W(\theta) \leq \gamma_{max} \|\theta\|^2 \Rightarrow \frac{dW}{dt} \leq -\frac{1}{\gamma_{max}} W$
+\item Thus,
+\begin{align}
+\|\theta_t\|^2 \leq \frac{1}{\gamma_{min}}W(\theta_t) \leq \frac{\gamma_{max}}{\gamma_{min}}e^{-t/\gamma_{max}}\|\theta_0\|^2
+\end{align}
+\item indicates that $W$ is a correct choice of Lyapunov function
+\end{enumerate}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{frame}
+\frametitle{Two Methods, One Lyapunov Function and Similar Bounds}
+\begin{enumerate}
+\item both Stein's method and analysis of ODE point to the same Lyapunov function $W$
+\item analysis of stochastic system is similar to ODE: 
+
+drift of $W$ versus time derivative of $W$ along the trajectory of ODE
+\end{enumerate}
+\begin{align}
+\E[ \|\Theta_k\|^2] &\leq \frac{\gamma_{max}}{\gamma_{min}}\left(1-\frac{0.9\epsilon}{\gamma_{max}}\right)^{k-\gamma} (1.5\|\Theta_0\|+0.5 b_{max})^2 + \frac{\tilde{\kappa_2} \gamma_{max}}{0.9\gamma_{min}} \epsilon \tau \\
+&\sim \frac{\gamma_{max}}{\gamma_{min}}\left(1-\frac{0.9\epsilon}{\gamma_{max}}\right)^{k-\gamma} \|\Theta_0\|^2
+\end{align}
+similar to $\frac{\gamma_{max}}{\gamma_{min}}e^{-t/\gamma_{max}}\|\theta_0\|^2$ for small $\epsilon$. 
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{frame}
+\frametitle{How to Decide $H_k$?}
+\begin{enumerate}
+\item Lyapunov function $W$ as a solution to Poisson equation: applying Stein's method to steady state approximation
+\item  ODE is determined by the steady states of $A(X_k)$ and $b(X_k)$
+\item given history $H_k$, for drift analysis of $W$ to be effective, we need to wait an initial transient period $\tau_\epsilon$ for $A(X_k), b(X_k)$ close enough to steady states
+\item $H_k :=  \Theta_{k-\tau}$
+
+
+\end{enumerate}
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{frame}
+\frametitle{Proof of the Theorem}
+\begin{enumerate}
+\item Use $W$ as Lyapunov function and obtain bound on the drift
+\begin{align}
+\E[W(\Theta_{k+1})-W(\Theta_{k})| \Theta_{k-\tau} ]  \leq -\frac{0.9\epsilon}{\gamma_{max}}\E[W(\Theta_{k})| \Theta_{k-\tau} ]+\tilde{k_2}\epsilon^2\tau_\epsilon
+\end{align}
+\item  Combine drift bound with
+\begin{align}
+\E\|\Theta_k\|^2 \leq \frac{1}{\gamma_{min}} \E[W(\Theta_k)]
+\end{align}
+and various vector inequalities 
+\end{enumerate}
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{frame}
+\frametitle{References}
+\footnotesize{
+
+\begin{thebibliography}{99}    
+  \beamertemplatebookbibitems
+  
+  \bibitem{Paper}
+   R. Srikant, Lei Ying  
+    \newblock {\em Finite-Time Error Bounds For Linear Stochastic Approximation and TD Learning}.
+    \newblock Statistical Science, 1997, Vol 12, No.4, 278-300.
+  %\beamertemplatebookbibitems
+  
+    \bibitem{Mark}
+    Mark Gluzman
+    \newblock {\em Multi-step learning and Value-based approximation methods
+}.
+    \newblock https://rlseminar.github.io/static/files/RL\_tutorials2019-0128mark.pdf. 
+
+	\end{thebibliography}
+}
+
+
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
