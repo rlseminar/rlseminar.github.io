@@ -1,5 +1,5 @@
 ---
-title: RL Theory Seminar
+title: RL Theory Seminar 2021 SPR
 layout: schedule
 semester: Spring
 year: 2021

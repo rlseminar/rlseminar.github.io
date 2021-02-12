@@ -3,7 +3,6 @@ title: RL Seminar 2019 SPR
 layout: schedule
 semester: Spring
 year: 2019
-nav: current
 ---
 
 The RL seminar covers various methods in reinforcement learning

@@ -1,10 +1,13 @@
 <!-- Layout: http://veerle.duoh.com/blog/comments/a_css_styled_table/ -->
 {% if page.semester == "Fall" %}
-{% capture date_lo %}{{page.year}}-08-01{% endcapture %}
-{% capture date_hi %}{{page.year}}-12-30{% endcapture %}
+{% capture date_lo %}{{page.year}}-09-01{% endcapture %}
+{% capture date_hi %}{{page.year}}-12-31{% endcapture %}
 {% elsif page.semester == "Spring" %}
 {% capture date_lo %}{{page.year}}-01-01{% endcapture %}
-{% capture date_hi %}{{page.year}}-06-01{% endcapture %}
+{% capture date_hi %}{{page.year}}-05-20{% endcapture %}
+{% elsif page.semester == "Summer" %}
+{% capture date_lo %}{{page.year}}-05-21{% endcapture %}
+{% capture date_hi %}{{page.year}}-08-31{% endcapture %}
 {% else %}
 <p>Semester error!</p>
 {% endif %}
