@@ -25,7 +25,7 @@
   {% assign prev_date = 0 %}
   {% for talk in site.posts reversed %}
   {% assign pdate = talk.date | date: '%s' | plus: 0 %}
-  {% if pdate > date_lo and pdate < date_hi %}
+  {% if pdate >= date_lo and pdate <= date_hi %}
   <tr>
     <th scope="row">{% if pdate == prev_date %}{% else %}{{ talk.date | date: "%b %d"}}{% endif %}</th>
     {% if talk.break %}
