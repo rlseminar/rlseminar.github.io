@@ -19,7 +19,7 @@ to retrieve the link for zoom.
 [yingru]: mailto:yingruli@link.cuhk.edu.cn
 [mark]: mailto:mg2289@cornell.edu
 [jim]: https://people.orie.cornell.edu/jdai/
-[ziniu]: https://liziniu.org
+[ziniu]: http://liziniu.org
 
 <iframe id="forum_embed"
   src="javascript:void(0)"
