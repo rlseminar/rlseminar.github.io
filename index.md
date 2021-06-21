@@ -1,7 +1,7 @@
 ---
 title: RL Theory Seminar
 layout: schedule
-semester: Spring
+semester: Summer
 year: 2021
 nav: current
 ---
