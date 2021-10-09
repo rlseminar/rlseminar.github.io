@@ -1,5 +1,5 @@
 ---
-title: RL Theory Seminar 2020 Fall
+title: RL Theory Seminar 2020 FALL
 layout: schedule
 semester: Fall
 year: 2020

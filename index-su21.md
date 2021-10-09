@@ -1,5 +1,5 @@
 ---
-title: Statistics and RL Seminar 2020 Summer
+title: RL Theory Seminar 2020 SUM
 layout: schedule
 semester: Summer
 year: 2021
