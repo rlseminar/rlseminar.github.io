@@ -12,4 +12,4 @@ We also provide online zoom meeting room for the convenience of discussion and r
 The zoom link will be sent by email. If you are interested, please [contact](about.html) us.
 The suggested paper lists can be found [here](https://docs.qq.com/doc/DVWRqVUFWQmptamJ2).
 
-<a target="_blank" href="https://calendar.google.com/event?action=TEMPLATE&amp;tmeid=NWQxcDgyNms1cGJvYTY1MTE5ODh1czB0b29fMjAyMTEwMTVUMDYwMDAwWiBzenJsZWVAbQ&amp;tmsrc=szrlee%40gmail.com&amp;scp=ALL"><img border="0" src="https://www.google.com/calendar/images/ext/gc_button1_en.gif"></a>
+<a target="_blank" href="https://calendar.google.com/event?action=TEMPLATE&amp;tmeid=NWQxcDgyNms1cGJvYTY1MTE5ODh1czB0b29fMjAyMTEwMjBUMDAzMDAwWiBzenJsZWVAbQ&amp;tmsrc=szrlee%40gmail.com&amp;scp=ALL"><img border="0" src="https://www.google.com/calendar/images/ext/gc_button1_en.gif"></a>
