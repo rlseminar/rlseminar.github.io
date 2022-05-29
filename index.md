@@ -1,12 +1,12 @@
 ---
 title: RL Theory Seminar
 layout: schedule
-semester: Fall
-year: 2021
+semester: Spring
+year: 2022
 nav: current
 ---
 
-The seminar meets Thursday, 10:00-11:30 am (UTC+8).
+The seminar meets Tuesday, 10:00-11:30 am (UTC+8).
 <!-- The offline venue is located in 501 Daoyuan Building. -->
 We provide online zoom meeting room for the convenience of discussion and replay.
 The zoom link will be sent by email. If you are interested, please [contact](about.html) us.
