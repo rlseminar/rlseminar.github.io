@@ -1,18 +1,16 @@
--
-  info: Spring 2019
+- info: Spring 2019
   url: index-s19.html
--
-  info: Summer 2020
+- info: Summer 2020
   url: index-su20.html
--
-  info: Fall 2020
+- info: Fall 2020
   url: index-f20.html
--
-  info: Spring 2021
+- info: Spring 2021
   url: index-s21.html
--
-  info: Summer 2021
+- info: Summer 2021
   url: index-su21.html
--
-  info: Fall 2021
+- info: Fall 2021
   url: index-f21.html
+- info: Spring 2022
+  url: index-s22.html
+- info: Fall 2022
+  url: index-f22.html
